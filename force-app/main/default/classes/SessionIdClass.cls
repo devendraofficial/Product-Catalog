@@ -4,7 +4,7 @@ public class SessionIdClass {
         String sessionId = '';
         String query = '';
         String vfContent = '';
-
+        String hello = '';
         PageReference sessionIdPage = Page.SessionId;
         if(!test.isRunningTest()){
            vfContent = sessionIdPage.getContent().toString();
