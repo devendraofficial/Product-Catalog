@@ -1,0 +1,30 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <div class="slds-builder-toolbar" role="toolbar">
+        <div aria-label="Edit actions" class="slds-builder-toolbar__item-group"><span id="j_id0:itemPanel">
+            <label class="slds-label" style="font-size: 14px;                                                                  padding: 7px 0;                                                                  float: left;">103 Items</label></span>
+        </div>
+        <div aria-label="Document actions" class="slds-builder-toolbar__actions">
+            <button class="slds-button slds-button_icon slds-button_icon-border" id="filterBtn" style="background: #333;                                                                                                                     color: #fff;                                                                                                                     border-color: #333;">
+                
+                <span class="slds-assistive-text">Cut</span>
+            </button>
+            <button class="slds-button slds-button_icon slds-button_icon-border" id="sliderBtn" style="background: #333;                                                                                                                     color: #fff;                                                                                                                     border-color: #333;">
+                
+                <span class="slds-assistive-text">Cut</span>
+            </button>
+            <button class="slds-button slds-button_icon slds-button_icon-border" onclick="showFav();" style="background: #333;                                                                                                                     color: #fff;                                                                                                                     border-color: #333;                                                                                                                     font-size: 26px;" title="fav">
+                
+                ♥
+            </button>
+            <button class="slds-button slds-button_icon slds-button_icon-border" onclick="$('#leadInfo').slideToggle();" style="background: #333;                                         color: #fff;                                         border-color: #333;" tabindex="-1" title="Lead">
+                
+                <span class="slds-assistive-text">Paste</span>
+            </button>
+            <button class="slds-button slds-button_icon slds-button_icon-border" onclick="window.location.href = '/lightning/page/home';" style="background: #333;                                         color: #fff;                                         border-color: #333;" tabindex="-1" title="Lead">
+                
+                <span class="slds-assistive-text">Home</span>
+            </button>
+        </div>
+    </div>
+    
+</aura:component>

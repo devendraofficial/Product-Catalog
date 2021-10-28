@@ -1,0 +1,16 @@
+<apex:page >
+    <apex:includeLightning />
+    
+    <div id="lightning" style="width:100%;height:100%;"/>
+    
+    <script>
+    $Lightning.use("c:ProductCatalogApp", function() {
+        $Lightning.createComponent("c:MainCatalog",
+                                   { label : "MainCatalog" },
+                                   "lightning",
+                                   function(component) {
+                                       console.log("c:VFPageApp loaded successfully in VF page");
+                                   });
+    });
+    </script>
+</apex:page>

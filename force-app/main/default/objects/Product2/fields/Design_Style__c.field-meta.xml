@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Design_Style__c</fullName>
+    <externalId>false</externalId>
+    <label>Design Style</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Antique</fullName>
+                <default>false</default>
+                <label>Antique</label>
+            </value>
+            <value>
+                <fullName>Classic Victorian</fullName>
+                <default>false</default>
+                <label>Classic Victorian</label>
+            </value>
+            <value>
+                <fullName>Closet Set</fullName>
+                <default>false</default>
+                <label>Closet Set</label>
+            </value>
+            <value>
+                <fullName>Contemporary</fullName>
+                <default>false</default>
+                <label>Contemporary</label>
+            </value>
+            <value>
+                <fullName>Fusion</fullName>
+                <default>false</default>
+                <label>Fusion</label>
+            </value>
+            <value>
+                <fullName>Jadau</fullName>
+                <default>false</default>
+                <label>Jadau</label>
+            </value>
+            <value>
+                <fullName>Kundan</fullName>
+                <default>false</default>
+                <label>Kundan</label>
+            </value>
+            <value>
+                <fullName>Modern</fullName>
+                <default>false</default>
+                <label>Modern</label>
+            </value>
+            <value>
+                <fullName>Nakshi</fullName>
+                <default>false</default>
+                <label>Nakshi</label>
+            </value>
+            <value>
+                <fullName>Open Set</fullName>
+                <default>false</default>
+                <label>Open Set</label>
+            </value>
+            <value>
+                <fullName>Patchi</fullName>
+                <default>false</default>
+                <label>Patchi</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>5</visibleLines>
+</CustomField>

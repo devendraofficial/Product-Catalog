@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Marketing_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Marketing Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Relationship_to_Company__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Model</fullName>
+                <default>false</default>
+                <label>Model</label>
+            </value>
+            <value>
+                <fullName>Stylist</fullName>
+                <default>false</default>
+                <label>Stylist</label>
+            </value>
+            <value>
+                <fullName>Hair n Makeup</fullName>
+                <default>false</default>
+                <label>Hair n Makeup</label>
+            </value>
+            <value>
+                <fullName>Ad Release Agency</fullName>
+                <default>false</default>
+                <label>Ad Release Agency</label>
+            </value>
+            <value>
+                <fullName>Media House</fullName>
+                <default>false</default>
+                <label>Media House</label>
+            </value>
+            <value>
+                <fullName>Digital Team</fullName>
+                <default>false</default>
+                <label>Digital Team</label>
+            </value>
+            <value>
+                <fullName>Content Creator</fullName>
+                <default>false</default>
+                <label>Content Creator</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Marketing</controllingFieldValue>
+            <valueName>Model</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marketing</controllingFieldValue>
+            <valueName>Stylist</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marketing</controllingFieldValue>
+            <valueName>Hair n Makeup</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marketing</controllingFieldValue>
+            <valueName>Ad Release Agency</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marketing</controllingFieldValue>
+            <valueName>Media House</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marketing</controllingFieldValue>
+            <valueName>Digital Team</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marketing</controllingFieldValue>
+            <valueName>Content Creator</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marketing</controllingFieldValue>
+            <valueName>Other</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

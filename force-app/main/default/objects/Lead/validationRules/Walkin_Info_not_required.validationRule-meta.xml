@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Walkin_Info_not_required</fullName>
+    <active>false</active>
+    <errorConditionFormula>AND( NOT( ISPICKVAL( LeadSource , &quot;Walkin&quot;) ) , OR( NOT( ISBLANK( TEXT( Check_in_Date__c ) ) ) ,NOT( ISBLANK( TEXT(  Purpose__c  ) ) ), NOT( ISBLANK(  Remarks__c  ) )) )</errorConditionFormula>
+    <errorMessage>Please Do not fill the Walkin Information if Lead Source is not Walkin!</errorMessage>
+</ValidationRule>

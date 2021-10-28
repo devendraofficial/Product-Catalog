@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Ethnicity__c</fullName>
+    <externalId>false</externalId>
+    <label>Ethnicity</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>N/A</fullName>
+                <default>true</default>
+                <label>N/A</label>
+            </value>
+            <value>
+                <fullName>Telugu</fullName>
+                <default>false</default>
+                <label>Telugu</label>
+            </value>
+            <value>
+                <fullName>Kannda</fullName>
+                <default>false</default>
+                <label>Kannda</label>
+            </value>
+            <value>
+                <fullName>Tamil</fullName>
+                <default>false</default>
+                <label>Tamil</label>
+            </value>
+            <value>
+                <fullName>Keralite</fullName>
+                <default>false</default>
+                <label>Keralite</label>
+            </value>
+            <value>
+                <fullName>Punjabi</fullName>
+                <default>false</default>
+                <label>Punjabi</label>
+            </value>
+            <value>
+                <fullName>Jain</fullName>
+                <default>false</default>
+                <label>Jain</label>
+            </value>
+            <value>
+                <fullName>Other North Indian</fullName>
+                <default>false</default>
+                <label>Other North Indian</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

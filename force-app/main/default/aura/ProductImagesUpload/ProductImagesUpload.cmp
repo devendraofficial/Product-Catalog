@@ -1,0 +1,84 @@
+<aura:component controller="ProductCatalogController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="recordId" type="String"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="productList" type="Product2[]"/>
+    <aura:attribute name="filetype" type="List" default="['.png', '.jpg', '.jpeg']" />
+    <aura:attribute name="multiple" type="Boolean" default="true" />
+    <aura:attribute name="disabled" type="Boolean" default="true" />
+    
+    <article class="slds-card">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <lightning:icon size="small" iconName="custom:custom55" alternativeText="Utility image" title="Image" />
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <a href="#" class="slds-card__header-link slds-truncate" title="Favorites">
+                            <span>Upload Images</span>
+                        </a>
+                    </h2>
+                </div>
+            </header>
+        </div>
+        <div class="slds-card__body slds-card__body_inner">
+            <table aria-multiselectable="true" class="slds-table slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols" role="grid">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <th style="padding: 7px 10px;" class="slds-is-resizable slds-is-sortable" scope="col">
+                            <span class="slds-truncate" title="ProductName">Product Name</span>
+                            <div class="slds-resizable">
+                                <span class="slds-resizable__handle">
+                                    <span class="slds-resizable__divider"></span>
+                                </span>
+                            </div>
+                        </th>
+                        <th style="padding: 7px 10px;" class="slds-is-resizable slds-is-sortable" scope="col">
+                            <span class="slds-truncate" title="Product Code">Product Code</span>
+                            <div class="slds-resizable">
+                                <span class="slds-resizable__handle">
+                                    <span class="slds-resizable__divider"></span>
+                                </span>
+                            </div>
+                        </th>
+                        <th style="padding: 7px 10px;" class="slds-is-resizable slds-is-sortable" scope="col">
+                            <span class="slds-truncate" title="Description">Description</span>
+                            <div class="slds-resizable">
+                                <span class="slds-resizable__handle">
+                                    <span class="slds-resizable__divider"></span>
+                                </span>
+                            </div>
+                        </th>
+                        <th style="padding: 7px 10px;" scope="col">
+                            <div class="slds-truncate" title="Actions">Actions</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:iteration items="{!v.productList}" var="item">
+                        <tr aria-selected="false" class="slds-hint-parent">
+                            <th scope="row">
+                                <div class="slds-truncate" title="{!item.Name}">
+                                    <a href="{!'/'+item.Id}" target="_blank" tabindex="0">{!item.Name}</a>
+                                </div>
+                            </th>
+                            <td role="gridcell">
+                                <div class="slds-truncate" title="{!item.ProductCode}">{!item.ProductCode}</div>
+                            </td>
+                            <td role="gridcell">
+                                <div class="slds-truncate" title="{!item.Description}">{!item.Description}</div>
+                            </td>
+                            <td role="gridcell">
+                                <lightning:fileUpload name="fileUploader"
+                                                      multiple="true"
+                                                      accept="{!v.filetype}"
+                                                      recordId="{!item.Id}"
+                                                      style="margin-top: -15px;float:left;"/>
+                            </td>
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+            </table>
+        </div>
+    </article>
+</aura:component>

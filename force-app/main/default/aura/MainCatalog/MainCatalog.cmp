@@ -1,0 +1,159 @@
+<aura:component controller="MainCatalogController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction,lightning:isUrlAddressable" access="global" >
+    <aura:attribute name="isProcessing" type="Boolean" default="false" access="public" /> 
+    <aura:attribute name="recordId" type="String" /> 
+    <aura:attribute name="sobject" type="String" default="Lead"/> 
+    <aura:attribute name="productList" type="List" /> 
+    <aura:attribute name="filterList" type="List"/> 
+    <aura:attribute name="totalProducts" type="Integer" default="0"/> 
+    <aura:attribute name="layoutItem" type="Integer" default="3"/> 
+    <aura:attribute name="filterWrapper" type="List" /> 
+    <aura:attribute name="showFilter" type="Boolean" default="false" access="public" /> 
+    <aura:attribute name="showFilterClass" type="String" default="slds-is-close" access="public" />
+    <aura:attribute type="String" name="title" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.recordId}" action="{!c.itemsChange}"/>
+    
+    
+    <ltng:require scripts="{!$Resource.Confetti}"/>
+    <aura:if isTrue="{!v.isProcessing}">
+        <lightning:layout verticalAlign="stretch">
+            <lightning:layoutItem flexibility="auto" size="12">
+                <lightning:spinner variant="brand" />
+            </lightning:layoutItem>
+        </lightning:layout>
+    </aura:if>
+    <div class="slds-theme_default header" style="position:fixed;top:0rem;width:100%;z-index:100;">
+        <lightning:card class="slds-border_top slds-border_bottom slds-border_left slds-border_right"
+                        title="{!'Products (' +v.totalProducts+')'}" iconName="standard:product" variant="base">
+            <aura:set attribute="actions">
+                <lightning:buttonGroup class="slds-p-around_small">
+                    <lightning:buttonMenu class="slds-m-left_x-small slds-m-right_small slds-border" 
+                                          variant="border" menuAlignment="left" 
+                                          iconName="standard:lead" iconSize="xx-large" 
+                                          label="Lead" onselect="{!c.callLeadModalBox }">&nbsp;&nbsp;
+                        <lightning:menuItem label="Create New" value="createLead"
+                                            prefixIconName="utility:send" >
+                        </lightning:menuItem>
+                        <lightning:menuItem label="Lead Info" value="showLead"
+                                            prefixIconName="utility:connected_apps">
+                        </lightning:menuItem>
+                    </lightning:buttonMenu>
+                    <lightning:buttonMenu class="slds-m-left_x-small slds-m-right_small slds-border" 
+                                          variant="border" menuAlignment="left" label="Set Rows" onselect="{!c.setRowsToDisplay}">&nbsp;&nbsp;
+                        <lightning:menuItem label="1" value="1"></lightning:menuItem>
+                        <lightning:menuItem label="2" value="2"></lightning:menuItem>
+                        <lightning:menuItem label="3" value="3"></lightning:menuItem>
+                        <lightning:menuItem label="4" value="4"></lightning:menuItem>
+                    </lightning:buttonMenu>
+                    <!--<lightning:button label="Filter" iconName="utility:filterList" class="slds-m-left_xx-small"
+                                      onclick="{!c.showFilterCtrl}"/>-->&nbsp;&nbsp;
+                    <lightning:button label="Favorite" iconName="utility:favorite" class="slds-m-left_xx-small"
+                                      onclick="{!c.showFavourites}"/>&nbsp;&nbsp;
+                    <lightning:button label="Home" iconName="utility:home" class="slds-m-left_xx-small"
+                                      onclick="{!c.showHomePage}"/>&nbsp;&nbsp;
+                    
+                </lightning:buttonGroup>
+            </aura:set>
+        </lightning:card>
+        
+    </div>
+    <div style="padding-top:82px;">
+        <div style="background-color:#fafaf9;position:relative;overflow:hidden;display:flex;flex-direction:">
+            <div class="{!'slds-panel slds-size_medium slds-panel_docked slds-panel_docked-left slds-panel_drawer '+ v.showFilterClass}" aria-hidden="true">
+                <div class="slds-panel__header">
+                    <h2 class="slds-panel__header-title slds-text-heading_small slds-truncate" title="FILTERS">FILTERS</h2>
+                </div>
+                <div class="slds-panel__body">
+                    <!--<aura:iteration items="{!v.filterWrapper}" var="fs" >
+                        <div class="slds-text-link_reset slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                            <b class="slds-p-top_small slds-truncate" style="margin-bottom: 5px;" title="{!fs.fieldLabel}">{!fs.fieldLabel}</b>
+                        </div>
+                        <div class="slds-truncate">
+                            <div class="slds-form-element__control slds-form-element" style="max-height: 200px; overflow: auto;">
+                                <aura:iteration items="{!fs.pValues}" var="p" >
+                                    <label class="slds-checkbox">
+                                        <lightning:input aura:id="checkContact" type="checkbox" label="{!p}" name="{!fs.fieldName +':'+p}" onchange="{!c.onCheck}"/>
+                                    </label>
+                                </aura:iteration>
+                            </div>
+                        </div>
+                    </aura:iteration>-->
+                    <div class="slds-p-around_small slds-p-bottom_small">
+                        <lightning:button class="go slds-float_right" 
+                                          variant="brand" 
+                                          label="GO" 
+                                          title="Filter" 
+                                          onclick="{!c.onclickFilter}"/>
+                    </div>
+                    
+                </div>
+                
+            </div>         
+            <lightning:layout multipleRows="true" class="slds-border_top slds-border_bottom slds-border_left slds-border_right">
+                <aura:iteration items="{!v.productList}" var="p" indexVar="ind">
+                    <lightning:layoutItem size="{!v.layoutItem}">
+                        <div  class="slds-card responsiveClass"><!-- height: 100vh;width: 200vh; -->
+                            <div  style="padding:0; margin:0;">
+                                    <div style="text-align: center;">
+                                        <aura:if isTrue="{!not(empty(p.productCatalogImage))}">
+                                            <div class="imgDiv slds-align_absolute-center" onclick = "{!c.callImagesModalBox}" data-id="{!p.Id}" >
+                                                <img class="slds-p-around_small" src="{!'https://tarasri.box.com/shared/static/'+p.productCatalogImage+'.jpg'}" 
+                                                     alt="User avatar" 
+                                                     style="cursor:pointer;border-radius: 3px 3px 0 0px;"/>
+                                            </div>
+                                            <aura:set attribute="else">
+                                                <div class="imgDiv slds-align_absolute-center" onclick = "{!c.callImagesModalBox}" data-id="{!p.Id}">
+                                                    <img src="https://1d4au92ejd571ijfyy1m3feh-wpengine.netdna-ssl.com/wp-content/themes/velocity/images/no-image-found-360x250.png"
+                                                         alt="User avatar" 
+                                                         style="cursor:pointer;border-radius: 3px 3px 0 0px;"/>
+                                                </div>
+                                            </aura:set>
+                                        </aura:if>
+                                    </div>
+                                <div class="slds-grid slds-gutters" style="padding:5px;">
+                                    <div class="slds-col">
+                                        &nbsp;&nbsp;<b><span>{!p.productName}</span></b> <br/>
+                                        &nbsp;<span class="span-font">{!p.productDesign_Number}</span><br/>
+                                        &nbsp;<span class="span-font">GW : {!p.productGross_Wt}</span>
+                                        &nbsp;<span class="span-font">NW : {!p.productNet_Wt}</span>
+                                        &nbsp;<span class="span-font">D : {!p.productDia_Wt}</span>
+                                        &nbsp;<span class="span-font">FD : {!p.productFlat_Dia_Wt}</span>
+                                        &nbsp;<span class="span-font">CS : {!p.productStone_Wt}</span>
+                                    </div>
+                                    
+                                    <aura:if isTrue="{!(p.productFav)}">
+                                        <div class="slds-p-right_x-small" style="text-align: right;">
+                                            <button style="color: lightgray;
+                                                           font-size: 33px;
+                                                           padding: 15px;" 
+                                                    class="slds-button slds-button_icon slds-button_icon-small slds-panel__close" 
+                                                    title="Add Favorite"  data-id="{!p.Id}" onclick="{!c.onclickFav}">
+                                                <div class="favRed" id="{!p.Id}">♥</div>
+                                            </button> 
+                                        </div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-p-right_x-small" style="text-align: right;">
+                                                <button style="color: lightgray;
+                                                               font-size: 33px;
+                                                               padding: 15px;" 
+                                                        class="slds-button slds-button_icon slds-button_icon-small slds-panel__close" 
+                                                        title="Add Favorite"  data-id="{!p.Id}" onclick="{!c.onclickFav}">
+                                                    <div id="{!p.Id}">♥</div>
+                                                </button> 
+                                            </div>
+                                        </aura:set>
+                                    </aura:if>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </lightning:layoutItem>
+                </aura:iteration>
+            </lightning:layout>
+        </div>
+    </div>
+    <c:LeadModalBox aura:id="leadComp" recordId="{!v.recordId}"/>
+    <c:Favourite aura:id="favComp"/>
+    <c:ProductImages aura:id="imagesComp"/>
+</aura:component>

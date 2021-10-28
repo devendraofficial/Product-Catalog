@@ -1,0 +1,85 @@
+<aura:component controller="MainCatalogController"
+                implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:method name="favModalBoxMethod" action="{!c.doInit}">
+        <aura:attribute name="leadId" type="String"/>
+    </aura:method>
+    <aura:attribute name="recID" type="String"/>
+    <aura:attribute name="isModalOpen" type="boolean" default="false"/>
+    <aura:attribute name="favList" type="List" /> 
+    <aura:attribute name="totalItems" type="Integer" default="0"/> 
+    <ltng:require scripts="{!$Resource.Confetti}"/>
+    <!--Use aura:if tag to display/hide popup based on isModalOpen value-->  
+    <aura:if isTrue="{!v.isModalOpen}">
+        <!-- Modal/Popup Box starts here-->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container" style="width:60%;">
+                <!-- Modal/Popup Box Header Starts here-->
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close"
+                                          onclick="{! c.closeModel }"
+                                          alternativeText="close"
+                                          variant="bare-inverse"
+                                          class="slds-modal__close"/>
+                    <h2>Favourite Items - ({!v.totalItems})</h2>
+                </header>
+                <!--Modal/Popup Box Body Starts here-->
+                <div class="slds-modal__content " id="modal-content-id-1">
+                    <lightning:layout multipleRows="true" class="slds-p-around_small slds-border_top slds-border_bottom slds-border_left slds-border_right">
+                        <aura:iteration items="{!v.favList}" var="p" indexVar="ind">
+                            <lightning:layoutItem size="6">
+                                <div class="slds-card" style="margin:10px;">
+                                    <div class="slds-card__body slds-card__body_inner" style="padding:0; margin:0;">
+                                        <div class="slds-grid slds-gutters">
+                                            <div class="slds-col" style="text-align: center;">
+                                                <aura:if isTrue="{!not(empty(p.Product__r.Main_Image_Id__c))}">
+                                                    <div class="imgDiv slds-align_absolute-center">
+                                                        <img class="slds-p-around_small" src="{!'https://tarasri.box.com/shared/static/'+p.Product__r.Main_Image_Id__c+'.jpg'}" 
+                                                             alt="User avatar" 
+                                                             style="cursor:pointer;border-radius: 3px 3px 0 0px;width: 270px;height: 270px;"/>
+                                                    </div>
+                                                    <aura:set attribute="else">
+                                                        <img src="https://1d4au92ejd571ijfyy1m3feh-wpengine.netdna-ssl.com/wp-content/themes/velocity/images/no-image-found-360x250.png"/>
+                                                    </aura:set>
+                                                </aura:if>
+                                            </div>
+                                        </div>
+                                        <div class="slds-grid slds-gutters" style="padding:5px;">
+                                            <div class="slds-col">
+                                                &nbsp;&nbsp;<b><span>Name:</span>&nbsp;&nbsp;<span>{!p.Product__r.Name}</span></b>
+                                            </div>
+                                            <div class="slds-col" style="padding: 6px;
+                                                                         color: #17b;
+                                                                         font-size: 17px;
+                                                                         font-weight: bold;
+                                                                         text-align: right;
+                                                                         margin-right: 5px;">
+                                                <!--<span>₹ {!p.PricebookEntries[0].UnitPrice}</span>&nbsp;&nbsp;-->
+                                                <button type="button" 
+                                                        onclick="{!c.deleteItem}" style="background: #fff;border:none;font-size:25;"
+                                                        title="Remove" data-id="{!p.Id}" >
+                                                    <i class="fa fa-trash"></i>
+                                                </button> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </lightning:layoutItem>
+                        </aura:iteration>
+                    </lightning:layout>
+                </div>
+                <!--Modal/Popup Box Footer Starts here-->
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="neutral"
+                                      label="Cancel"
+                                      title="Cancel"
+                                      onclick="{! c.closeModel }"/>
+                    <lightning:button variant="brand"
+                                      label="CHECKOUT"
+                                      title="CHECKOUT"
+                                      onclick="{!c.leadConversionMethod}"/>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+</aura:component>

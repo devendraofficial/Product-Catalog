@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Won_Value_Importance</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(  OR(ISPICKVAL( StageName , &quot;Delivered&quot;),ISPICKVAL( StageName , &quot;Cancelled&quot;))  , ISBLANK( TEXT( Won_Value__c ) ) )</errorConditionFormula>
+    <errorDisplayField>Won_Value__c</errorDisplayField>
+    <errorMessage>Enter the Won Value</errorMessage>
+</ValidationRule>

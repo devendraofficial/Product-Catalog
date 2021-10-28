@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Color_Stone__c</fullName>
+    <externalId>false</externalId>
+    <label>Color Stone</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Blue Sapphire</fullName>
+                <default>false</default>
+                <label>Blue Sapphire</label>
+            </value>
+            <value>
+                <fullName>Cats Eye</fullName>
+                <default>false</default>
+                <label>Cats Eye</label>
+            </value>
+            <value>
+                <fullName>Coral</fullName>
+                <default>false</default>
+                <label>Coral</label>
+            </value>
+            <value>
+                <fullName>Emerald</fullName>
+                <default>false</default>
+                <label>Emerald</label>
+            </value>
+            <value>
+                <fullName>Gomed (Garnet)</fullName>
+                <default>false</default>
+                <label>Gomed (Garnet)</label>
+            </value>
+            <value>
+                <fullName>Pearl</fullName>
+                <default>false</default>
+                <label>Pearl</label>
+            </value>
+            <value>
+                <fullName>Ruby</fullName>
+                <default>false</default>
+                <label>Ruby</label>
+            </value>
+            <value>
+                <fullName>Tanzanite</fullName>
+                <default>false</default>
+                <label>Tanzanite</label>
+            </value>
+            <value>
+                <fullName>Yellow Sapphire</fullName>
+                <default>false</default>
+                <label>Yellow Sapphire</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>5</visibleLines>
+</CustomField>

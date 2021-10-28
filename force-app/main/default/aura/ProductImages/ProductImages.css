@@ -1,0 +1,25 @@
+.THIS .slds-carousel__autoplay{
+    display:none;
+}
+.THIS img{
+    padding-left:10rem;
+    padding-top:20px;
+}
+.THIS .slds-carousel__image{
+    height:80%;
+    width:80%;
+}
+.THIS .slds-modal__header{
+    padding:0;
+    margin: 0;
+}
+.THIS .slds-carousel__content{
+    height:2rem;
+}
+.THIS .custom_font{
+    font-family: "Times New Roman", Times, serif;
+    font-size:14px;
+}
+.THIS .span-font{
+    font-size: 20px;
+}

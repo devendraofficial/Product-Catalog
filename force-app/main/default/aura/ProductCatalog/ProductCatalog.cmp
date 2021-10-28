@@ -1,0 +1,46 @@
+<aura:component controller="ProductCatalogController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="recordId" type="String"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="favList" type="Favorite__c[]"/>
+    
+    <article class="slds-card">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <lightning:icon size="small" iconName="custom:custom11" alternativeText="Utility image" title="Image" />
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <a href="#" class="slds-card__header-link slds-truncate" title="Favorites">
+                            <span>Favorites</span>
+                        </a>
+                    </h2>
+                </div>
+                <div class="slds-no-flex">
+                    <a href="{!'/apex/ProductCatalog?id='+v.recordId}" target="_blank">
+                        <button class="slds-button slds-button_brand">View Favorites</button>
+                    </a>
+                </div>
+            </header>
+        </div>
+        <div class="slds-card__body slds-card__body_inner">
+            <lightning:tabset selectedTabId="one">
+                <lightning:tab label="Product Catalog" id="one">
+                    <lightning:carousel disableAutoRefresh="false" disableAutoScroll="true">
+                        <aura:iteration items="{!v.favList}" var="item">
+                            <lightning:carouselImage src="{!'/sfc/servlet.shepherd/version/download/'+item.Product__r.Product_Catalog_Image__c}"
+                                                     header = "{!item.Product__r.Name}"
+                                                     description = "{!item.Product__r.Description}"
+                                                     alternativeText = "{!item.Product__r.ProductCode}"
+                                                     href = "javascript:void(0);">
+                            </lightning:carouselImage>
+                        </aura:iteration>
+                    </lightning:carousel>
+                </lightning:tab>
+                <lightning:tab label="Website" id="two">
+                    
+                </lightning:tab>
+            </lightning:tabset>
+        </div>
+    </article>
+</aura:component>

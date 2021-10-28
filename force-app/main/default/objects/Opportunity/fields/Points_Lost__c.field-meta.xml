@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Points_Lost__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF( ISPICKVAL( Points_Exception__c , &quot;N/A&quot;) , ( IF(  ISPICKVAL( Points_Type__c , &quot;Gold&quot;)  , 0.001 *   Lost_Value__c  ,   IF(ISPICKVAL( Points_Type__c , &quot;Diamond&quot;), 0.002 *   Lost_Value__c ,  IF( ISPICKVAL( Points_Type__c , &quot;Color Stone&quot;) , 0.003 *   Lost_Value__c  , 0) )   ) ), (IF( ISPICKVAL( Points_Exception__c , &quot;Discount&quot;) , ( IF(  ISPICKVAL( Points_Type__c , &quot;Gold&quot;)  , 0.001 *   Lost_Value__c  ,   IF(ISPICKVAL( Points_Type__c , &quot;Diamond&quot;), 0.002 *   Lost_Value__c ,  IF( ISPICKVAL( Points_Type__c , &quot;Color Stone&quot;) , 0.003 *   Lost_Value__c  , 0) )   ) ),0)))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Points Lost</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

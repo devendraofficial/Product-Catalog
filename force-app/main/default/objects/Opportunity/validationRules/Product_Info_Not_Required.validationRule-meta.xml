@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_Info_Not_Required</fullName>
+    <active>false</active>
+    <errorConditionFormula>AND( NOT(  ISBLANK( Product_Name__c )  ) , OR(  NOT( ISBLANK( TEXT( Jewelry_Type__c ) ) )  ,NOT( ISBLANK( TEXT(  Type__c  ) ) ),NOT( ISBLANK( TEXT(  Collection_Name__c  ) ) ),NOT( ISBLANK( TEXT(  Enquiry_Value__c  ) ) ),NOT( ISBLANK( TEXT(  Style__c  ) ) ),NOT( ISBLANK(  Design_Number__c  ) ),NOT( ISBLANK(   Product_Description__c   ) )) )</errorConditionFormula>
+    <errorMessage>Do not Fill the Product Information as Product is selected</errorMessage>
+</ValidationRule>

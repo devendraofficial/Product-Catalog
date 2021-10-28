@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Negotiator_Points_Lost__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(   Owner.Id    &lt;&gt;  Senior_Negotiator__r.Id ,If((   Points_Lost__c   *0.15)&gt;=75,  Points_Lost__c  *0.15,If(  Points_Lost__c  &lt;1,0,75)),0)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Negotiator Points Lost</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

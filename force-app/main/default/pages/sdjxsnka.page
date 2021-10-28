@@ -1,0 +1,7 @@
+<apex:page controller="BoxComIntegration">
+<apex:form >
+    <apex:pageblock > 
+        <apex:commandbutton action="{!BoxAuth}" value="Authentication">
+    </apex:commandbutton></apex:pageblock>
+</apex:form>
+</apex:page>

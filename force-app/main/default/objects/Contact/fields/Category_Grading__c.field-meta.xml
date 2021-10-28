@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Category_Grading__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF( ISPICKVAL( Category__c , &quot;Referrer Customer (Brand Ambassador)&quot;) , &quot;A&quot;,  IF( ISPICKVAL( Category__c , &quot;Customer&quot;) , &quot;B&quot;,  IF( ISPICKVAL( Category__c , &quot;Defaulter&quot;) ,&quot;D&quot;,&quot;N&quot;) ) )</formula>
+    <inlineHelpText>Grades the Contact based on their Category</inlineHelpText>
+    <label>Category Grading</label>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

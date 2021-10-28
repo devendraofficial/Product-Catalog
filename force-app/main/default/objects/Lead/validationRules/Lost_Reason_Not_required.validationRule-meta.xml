@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lost_Reason_Not_required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND( NOT( ISPICKVAL( Status , &quot;Lost&quot;) ) , NOT( ISPICKVAL(  Lost_Reason__c  , &quot;Other&quot;) ), NOT( ISBLANK( Lost_Comment__c ) ) )</errorConditionFormula>
+    <errorDisplayField>Lost_Comment__c</errorDisplayField>
+    <errorMessage>Please do not fill the Lost Reason until the Status is &quot;Lost&quot;</errorMessage>
+</ValidationRule>

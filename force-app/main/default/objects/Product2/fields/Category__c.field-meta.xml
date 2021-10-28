@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Category__c</fullName>
+    <externalId>false</externalId>
+    <label>Category</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Bangle</fullName>
+                <default>false</default>
+                <label>Bangle</label>
+            </value>
+            <value>
+                <fullName>Belt</fullName>
+                <default>false</default>
+                <label>Belt</label>
+            </value>
+            <value>
+                <fullName>Bracelet</fullName>
+                <default>false</default>
+                <label>Bracelet</label>
+            </value>
+            <value>
+                <fullName>Chandelier</fullName>
+                <default>false</default>
+                <label>Chandelier</label>
+            </value>
+            <value>
+                <fullName>Choker</fullName>
+                <default>false</default>
+                <label>Choker</label>
+            </value>
+            <value>
+                <fullName>Full Set</fullName>
+                <default>false</default>
+                <label>Full Set</label>
+            </value>
+            <value>
+                <fullName>Jada</fullName>
+                <default>false</default>
+                <label>Jada</label>
+            </value>
+            <value>
+                <fullName>Kum Kum Box</fullName>
+                <default>false</default>
+                <label>Kum Kum Box</label>
+            </value>
+            <value>
+                <fullName>Necklace</fullName>
+                <default>false</default>
+                <label>Necklace</label>
+            </value>
+            <value>
+                <fullName>Nose Pin</fullName>
+                <default>false</default>
+                <label>Nose Pin</label>
+            </value>
+            <value>
+                <fullName>Nose Ring</fullName>
+                <default>false</default>
+                <label>Nose Ring</label>
+            </value>
+            <value>
+                <fullName>Pendant</fullName>
+                <default>false</default>
+                <label>Pendant</label>
+            </value>
+            <value>
+                <fullName>Ring</fullName>
+                <default>false</default>
+                <label>Ring</label>
+            </value>
+            <value>
+                <fullName>Stud</fullName>
+                <default>false</default>
+                <label>Stud</label>
+            </value>
+            <value>
+                <fullName>Tops</fullName>
+                <default>false</default>
+                <label>Tops</label>
+            </value>
+            <value>
+                <fullName>Zhumka</fullName>
+                <default>false</default>
+                <label>Zhumka</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>5</visibleLines>
+</CustomField>

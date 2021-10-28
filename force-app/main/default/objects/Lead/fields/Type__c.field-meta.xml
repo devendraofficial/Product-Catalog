@@ -1,0 +1,575 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Jewelry_Type__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetName>Type</valueSetName>
+        <valueSettings>
+            <controllingFieldValue>Tops - Gold</controllingFieldValue>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Tops - Diamond</controllingFieldValue>
+            <valueName>Bali Chand</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Tops - Gold</controllingFieldValue>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Tops - Diamond</controllingFieldValue>
+            <valueName>Zhumka</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Tops - Gold</controllingFieldValue>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Tops - Diamond</controllingFieldValue>
+            <valueName>Zhumka Changeable</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Tops - Gold</controllingFieldValue>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Tops - Diamond</controllingFieldValue>
+            <valueName>Stud</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Tops - Gold</controllingFieldValue>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Tops - Diamond</controllingFieldValue>
+            <valueName>Stud Changeable</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Tops - Gold</controllingFieldValue>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Tops - Diamond</controllingFieldValue>
+            <valueName>Chandelier</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Tops - Gold</controllingFieldValue>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Tops - Diamond</controllingFieldValue>
+            <valueName>Chandelier Changeable</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Tops - Gold</controllingFieldValue>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Tops - Diamond</controllingFieldValue>
+            <valueName>Hangings Drop</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Tops - Gold</controllingFieldValue>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Tops - Diamond</controllingFieldValue>
+            <valueName>Hangings Drop Changeable</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Tops - Gold</controllingFieldValue>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <valueName>Single Polki</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Locket - Diamond</controllingFieldValue>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <valueName>1H</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Locket - Diamond</controllingFieldValue>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <valueName>2H</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Locket - Diamond</controllingFieldValue>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Locket - Gold</controllingFieldValue>
+            <valueName>Pushta</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Locket - Diamond</controllingFieldValue>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Locket - Gold</controllingFieldValue>
+            <valueName>SidePc</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Locket - Diamond</controllingFieldValue>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Locket - Gold</controllingFieldValue>
+            <valueName>Nail 1</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Locket - Diamond</controllingFieldValue>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Locket - Gold</controllingFieldValue>
+            <valueName>Nail2</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Locket - Diamond</controllingFieldValue>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Locket - Gold</controllingFieldValue>
+            <valueName>Tika</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Locket - Diamond</controllingFieldValue>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Ring - Diamond</controllingFieldValue>
+            <valueName>Pressure</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Locket - Diamond</controllingFieldValue>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Ring - Diamond</controllingFieldValue>
+            <controllingFieldValue>Ring - Gold</controllingFieldValue>
+            <controllingFieldValue>Bangles - Gold</controllingFieldValue>
+            <valueName>GOD</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Locket - Diamond</controllingFieldValue>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Tops - Diamond</controllingFieldValue>
+            <valueName>Cufflinks</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Locket - Diamond</controllingFieldValue>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <valueName>Sherwani Buttons</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Locket - Diamond</controllingFieldValue>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <valueName>Kurta Buttons</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Locket - Diamond</controllingFieldValue>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <valueName>Buckle</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Locket - Diamond</controllingFieldValue>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Locket - Gold</controllingFieldValue>
+            <valueName>Jada Pcs</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Locket - Diamond</controllingFieldValue>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Locket - Gold</controllingFieldValue>
+            <valueName>Nath</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Locket - Diamond</controllingFieldValue>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <valueName>Nose Pin</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Locket - Gold</controllingFieldValue>
+            <controllingFieldValue>Ring - Gold</controllingFieldValue>
+            <controllingFieldValue>Bangles - Gold</controllingFieldValue>
+            <valueName>TGJ Sepcial</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Locket - Gold</controllingFieldValue>
+            <controllingFieldValue>Ring - Gold</controllingFieldValue>
+            <valueName>Regular</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Set - Gold</controllingFieldValue>
+            <controllingFieldValue>Chain - Gold</controllingFieldValue>
+            <valueName>Side Pc</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Locket - Gold</controllingFieldValue>
+            <valueName>Nagram</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Locket - Gold</controllingFieldValue>
+            <controllingFieldValue>Set - Gold</controllingFieldValue>
+            <valueName>Magri</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Locket - Gold</controllingFieldValue>
+            <controllingFieldValue>Ring - Gold</controllingFieldValue>
+            <controllingFieldValue>Bangles - Gold</controllingFieldValue>
+            <valueName>Other Nakshi</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Locket - Gold</controllingFieldValue>
+            <valueName>GOD Others</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Locket - Gold</controllingFieldValue>
+            <valueName>Lakshmi</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Locket - Gold</controllingFieldValue>
+            <valueName>Ganesh</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Locket - Gold</controllingFieldValue>
+            <valueName>Krishna</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Locket - Gold</controllingFieldValue>
+            <valueName>Radha Krishna</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Locket - Gold</controllingFieldValue>
+            <valueName>Venkatesh</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Locket - Gold</controllingFieldValue>
+            <valueName>Shankar</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Ring - Diamond</controllingFieldValue>
+            <controllingFieldValue>Bangles - Diamond</controllingFieldValue>
+            <valueName>Changeable</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Ring - Diamond</controllingFieldValue>
+            <valueName>Couple Band</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Ring - Diamond</controllingFieldValue>
+            <valueName>Solitaire</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Ring - Diamond</controllingFieldValue>
+            <valueName>Others</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Ring - Diamond</controllingFieldValue>
+            <controllingFieldValue>Tops - Diamond</controllingFieldValue>
+            <valueName>CloseSet 3D</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Ring - Diamond</controllingFieldValue>
+            <controllingFieldValue>Tops - Diamond</controllingFieldValue>
+            <valueName>CloseSet4D</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Ring - Diamond</controllingFieldValue>
+            <controllingFieldValue>Tops - Diamond</controllingFieldValue>
+            <valueName>CloseSet5D</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Ring - Diamond</controllingFieldValue>
+            <controllingFieldValue>Tops - Diamond</controllingFieldValue>
+            <valueName>CloseSet7D</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Ring - Diamond</controllingFieldValue>
+            <controllingFieldValue>Tops - Diamond</controllingFieldValue>
+            <valueName>CloseSet9D</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Ring - Diamond</controllingFieldValue>
+            <controllingFieldValue>Tops - Diamond</controllingFieldValue>
+            <valueName>CloseSet STEP</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Bangles - Gold</controllingFieldValue>
+            <controllingFieldValue>Set - Gold</controllingFieldValue>
+            <controllingFieldValue>Chain - Gold</controllingFieldValue>
+            <valueName>Navratan</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Ring - Gold</controllingFieldValue>
+            <valueName>Band</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Bangles - Diamond</controllingFieldValue>
+            <valueName>Bracelet Fancy</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Bangles - Diamond</controllingFieldValue>
+            <valueName>Bracelet Others</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Bangles - Diamond</controllingFieldValue>
+            <valueName>Bracelet Tennis</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Bangles - Diamond</controllingFieldValue>
+            <valueName>Gap</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Bangles - Diamond</controllingFieldValue>
+            <valueName>Gap Fancy</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Bangles - Diamond</controllingFieldValue>
+            <valueName>Watch</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Bangles - Diamond</controllingFieldValue>
+            <valueName>Single Row 4pt</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Bangles - Diamond</controllingFieldValue>
+            <valueName>Single Row5pt</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Bangles - Diamond</controllingFieldValue>
+            <valueName>Single Row7pt</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Bangles - Diamond</controllingFieldValue>
+            <valueName>Single Row8pt</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Bangles - Diamond</controllingFieldValue>
+            <valueName>Single Row10pt</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Bangles - Diamond</controllingFieldValue>
+            <valueName>Single Row15pt</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Bangles - Diamond</controllingFieldValue>
+            <valueName>Single Row20pt</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Bangles - Diamond</controllingFieldValue>
+            <valueName>Single Row25pt</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Bangles - Gold</controllingFieldValue>
+            <valueName>Toda</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Bangles - Gold</controllingFieldValue>
+            <valueName>Kada Broad</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Bangles - Gold</controllingFieldValue>
+            <valueName>Kada Flexible</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Bangles - Gold</controllingFieldValue>
+            <valueName>Gents Flexible</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Bangles - Gold</controllingFieldValue>
+            <valueName>Gents Sardarji</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Bangles - Gold</controllingFieldValue>
+            <controllingFieldValue>Set - Gold</controllingFieldValue>
+            <valueName>Baju</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Bangles - Gold</controllingFieldValue>
+            <controllingFieldValue>Set - Gold</controllingFieldValue>
+            <valueName>Victorian</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Bangles - Gold</controllingFieldValue>
+            <controllingFieldValue>Chain - Gold</controllingFieldValue>
+            <valueName>Daily</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Bangles - Gold</controllingFieldValue>
+            <valueName>Single Row</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Set - Diamond</controllingFieldValue>
+            <valueName>Chick</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Set - Diamond</controllingFieldValue>
+            <controllingFieldValue>Set - Gold</controllingFieldValue>
+            <valueName>Choker</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Set - Diamond</controllingFieldValue>
+            <controllingFieldValue>Set - Gold</controllingFieldValue>
+            <valueName>Choker Detachable</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Set - Diamond</controllingFieldValue>
+            <controllingFieldValue>Set - Gold</controllingFieldValue>
+            <valueName>Necklace</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Set - Diamond</controllingFieldValue>
+            <controllingFieldValue>Set - Gold</controllingFieldValue>
+            <valueName>Haar Med</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Set - Diamond</controllingFieldValue>
+            <controllingFieldValue>Set - Gold</controllingFieldValue>
+            <valueName>Haar Long</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Set - Diamond</controllingFieldValue>
+            <controllingFieldValue>Set - Gold</controllingFieldValue>
+            <valueName>Line Single</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Set - Diamond</controllingFieldValue>
+            <controllingFieldValue>Set - Gold</controllingFieldValue>
+            <valueName>Line 2</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Set - Diamond</controllingFieldValue>
+            <controllingFieldValue>Set - Gold</controllingFieldValue>
+            <valueName>Line 3</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Set - Diamond</controllingFieldValue>
+            <controllingFieldValue>Set - Gold</controllingFieldValue>
+            <valueName>Line 4+</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Set - Diamond</controllingFieldValue>
+            <controllingFieldValue>Set - Gold</controllingFieldValue>
+            <valueName>Mango</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Set - Diamond</controllingFieldValue>
+            <controllingFieldValue>Set - Gold</controllingFieldValue>
+            <valueName>Kasu</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Set - Gold</controllingFieldValue>
+            <valueName>Rampataa</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Set - Gold</controllingFieldValue>
+            <valueName>Tussi</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Set - Gold</controllingFieldValue>
+            <valueName>Guttapusal</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Set - Gold</controllingFieldValue>
+            <valueName>BottuMala</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Chain - Gold</controllingFieldValue>
+            <valueName>SSP</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Chain - Gold</controllingFieldValue>
+            <valueName>Em</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Chain - Gold</controllingFieldValue>
+            <valueName>Ru</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Chain - Gold</controllingFieldValue>
+            <valueName>Mix</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Chain - Gold</controllingFieldValue>
+            <valueName>Coral</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Chain - Gold</controllingFieldValue>
+            <valueName>Basra</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Chain - Gold</controllingFieldValue>
+            <valueName>Mesh</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Chain - Gold</controllingFieldValue>
+            <valueName>Nakshi</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Tops - Diamond</controllingFieldValue>
+            <valueName>Bali J</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Tops - Diamond</controllingFieldValue>
+            <valueName>Bali Full</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Tops - Diamond</controllingFieldValue>
+            <valueName>Bali Half</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Tops - Diamond</controllingFieldValue>
+            <valueName>Bali Side</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

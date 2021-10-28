@@ -1,0 +1,114 @@
+<aura:component controller="MainCatalogController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:method name="imagesModalBoxMethod" action="{!c.doAction}"
+                 description="aura method to open modal box controlled from MainCatalogComponent"> 
+        <aura:attribute name="actionMsg" type="String"/> 
+    </aura:method>
+    <aura:attribute name="imageList" type="List" /> 
+    <aura:attribute name="isModalOpen" type="boolean" default="false"/>
+    <aura:attribute name="modalTitle" type="String" default="TaraSri Product"/>
+    <aura:attribute name="productObj" type="Product2"/>
+    
+    <div class="slds-m-around_x-large">
+        <!--Use aura:if tag to display/hide popup based on isModalOpen value-->  
+        <aura:if isTrue="{!v.isModalOpen}">
+            
+            <!-- Modal/Popup Box starts here-->
+            <section role="dialog" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- Modal/Popup Box Header Starts here-->
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{! c.closeModel }"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/>
+                    </header>
+                    <!--Modal/Popup Box Body Starts here-->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        
+                        <lightning:carousel disableAutoRefresh="true" disableAutoScroll="true">
+                            <aura:iteration items="{!v.imageList}" var="img">
+                                    <lightning:carouselImage
+                                                             src="{!'https://tarasri.box.com/shared/static/'+img+'.jpg'}"
+                                                             header = ""
+                                                             description = ""
+                                                             alternativeText = "{!v.Name}">
+                                    </lightning:carouselImage>
+                            </aura:iteration>
+                        </lightning:carousel>
+                        <h3><b>{!v.productObj.Name}</b></h3>
+                        <span>GW : {!v.productObj.Gross_Wt__c}</span>
+                        &nbsp;<span>NW : {!v.productObj.Net_Wt__c}</span>
+                        &nbsp;<span>D : {!v.productObj.Dia_Wt__c}</span>
+                        &nbsp;<span>FD : {!v.productObj.Flat_Dia_Wt__c}</span>
+                        &nbsp;<span>CS : {!v.productObj.Stone_Wt__c}</span><br/>
+                        {!v.productObj.Description}<br/>
+                        <lightning:layout multipleRows="true" class="custom_font">
+                            <lightning:layoutItem size="6" padding="around-small" >
+                                <b>Category:</b> {!v.productObj.Category__c}&nbsp;
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="6" padding="around-small">
+                                <b>Collection:</b> {!v.productObj.Collection__c}&nbsp;
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="6" padding="around-small">
+                                <b>Design Title:</b> {!v.productObj.Design_Title__c}&nbsp;
+                            </lightning:layoutItem>
+                            <!--<lightning:layoutItem size="4" padding="around-small">
+                                <b>CS:</b> {!v.productObj.Color_Stone__c}&nbsp;
+                            </lightning:layoutItem>-->
+                            <lightning:layoutItem size="6" padding="around-small">
+                                <b>Design No.:</b> {!v.productObj.Design_Number__c}&nbsp;
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="6" padding="around-small">
+                                <b>Design Style:</b> {!v.productObj.Design_Style_c}&nbsp;
+                            </lightning:layoutItem>
+                            <!--<lightning:layoutItem size="4" padding="around-small">
+                                <b>Dia_Wt:</b> {!v.productObj.Dia_Wt__c}&nbsp;
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="4" padding="around-small">
+                                <b>Dia_Type:</b> {!v.productObj.Diamond_Type__c}&nbsp;
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="4" padding="around-small">
+                                <b>Exp_By:</b> {!v.productObj.Expertise_By__c}&nbsp;
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="4" padding="around-small">
+                                <b>Flat_Dia_Wt:</b> {!v.productObj.Flat_Dia_Wt__c}&nbsp;
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="4" padding="around-small">
+                                <b>G_Wt:</b> {!v.productObj.Gross_Wt__c}&nbsp;
+                            </lightning:layoutItem>-->
+                            <lightning:layoutItem size="6" padding="around-small">
+                                <b>Jewellery Type:</b> {!v.productObj.Jewelry_Type__c}&nbsp;
+                            </lightning:layoutItem>
+                            <!-- <lightning:layoutItem size="4" padding="around-small">
+                                <b>Metal:</b> {!v.productObj.Metal__c}&nbsp;
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="4" padding="around-small">
+                                <b>Net_Wt:</b> {!v.productObj.Net_Wt__c}&nbsp;
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="4" padding="around-small">
+                                <b>Occasion:</b> {!v.productObj.Occasion__c}&nbsp;
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="4" padding="around-small">
+                                <b>Purity:</b> {!v.productObj.Purity__c}&nbsp;
+                            </lightning:layoutItem>-->
+                            <lightning:layoutItem size="6" padding="around-small">
+                                <b>Stone Wt:</b> {!v.productObj.Stone_Wt__c}&nbsp;
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="6" padding="around-small">
+                                <b>Style:</b> {!v.productObj.Style__c}&nbsp;
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="6" padding="around-small">
+                                <b>Product Type:</b> {!v.productObj.Type__c}&nbsp;
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="6" padding="around-small">
+                                <b>Gender:</b> {!v.productObj.Gender__c}&nbsp;
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if>
+    </div>
+</aura:component>

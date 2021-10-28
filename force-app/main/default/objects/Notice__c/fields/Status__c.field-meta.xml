@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status__c</fullName>
+    <externalId>false</externalId>
+    <label>Status</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>New Notice</fullName>
+                <default>true</default>
+                <label>New Notice</label>
+            </value>
+            <value>
+                <fullName>Informed Team</fullName>
+                <default>false</default>
+                <label>Informed Team</label>
+            </value>
+            <value>
+                <fullName>Documentation Ready</fullName>
+                <default>false</default>
+                <label>Documentation Ready</label>
+            </value>
+            <value>
+                <fullName>Responded to Dept.</fullName>
+                <default>false</default>
+                <label>Responded to Dept.</label>
+            </value>
+            <value>
+                <fullName>Notice Closed</fullName>
+                <default>false</default>
+                <label>Notice Closed</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

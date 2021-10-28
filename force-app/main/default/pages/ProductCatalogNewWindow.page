@@ -1,0 +1,11 @@
+<apex:page >
+    <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"/>
+    
+    <script>
+        $(document).ready(function(){
+            window.top.location.href = '/apex/ProductCatalog';
+        });
+    </script>
+    
+    <a id="link" href="/apex/ProductCatalog" target="_blank"></a>
+</apex:page>

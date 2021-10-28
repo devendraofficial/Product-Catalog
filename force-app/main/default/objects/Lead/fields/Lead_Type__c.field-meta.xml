@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lead_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Lead Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>LeadSource</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>From Website Favorites</fullName>
+                <default>false</default>
+                <label>From Website Favorites</label>
+            </value>
+            <value>
+                <fullName>Website Quotation Asked for</fullName>
+                <default>false</default>
+                <label>Website Quotation Asked for</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Website</controllingFieldValue>
+            <valueName>From Website Favorites</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Website</controllingFieldValue>
+            <valueName>Website Quotation Asked for</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

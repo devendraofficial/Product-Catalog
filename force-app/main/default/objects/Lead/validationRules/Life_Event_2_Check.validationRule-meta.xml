@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Life_Event_2_Check</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND( ISBLANK( TEXT(  Life_Event_2_Date__c  ) ) ,NOT( ISBLANK( TEXT(  Life_Event_2_if_any__c  ) ) ))</errorConditionFormula>
+    <errorDisplayField>Life_Event_2_if_any__c</errorDisplayField>
+    <errorMessage>Fill in the Life Event Details</errorMessage>
+</ValidationRule>

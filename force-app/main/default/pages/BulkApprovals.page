@@ -1,0 +1,833 @@
+<apex:page applyBodyTag="false" title="Bulk Approvals" controller="BulkApprovalController" lightningStylesheets="true" sidebar="false" showHeader="false">
+    <apex:slds />
+    <title>Bulk Approvals</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+    <link rel="stylesheet" href="{!URLFOR($Resource.jqxgrid,'/jqwidgets/styles/jqx.base.css')}" type="text/css" />
+    <script type="text/javascript" src="{!URLFOR($Resource.jqxgrid,'/scripts/jquery-1.11.1.min.js')}"></script>
+    <script type="text/javascript" src="{!URLFOR($Resource.jqxgrid,'/jqwidgets/jqxcore.js')}"></script>
+    <script type="text/javascript" src="{!URLFOR($Resource.jqxgrid,'/jqwidgets/jqxdata.js')}"></script>
+    <script type="text/javascript" src="{!URLFOR($Resource.jqxgrid,'/jqwidgets/jqxbuttons.js')}"></script>
+    <script type="text/javascript" src="{!URLFOR($Resource.jqxgrid,'/jqwidgets/jqxscrollbar.js')}"></script>
+    <script type="text/javascript" src="{!URLFOR($Resource.jqxgrid,'/jqwidgets/jqxmenu.js')}"></script>
+    <script type="text/javascript" src="{!URLFOR($Resource.jqxgrid,'/jqwidgets/jqxlistbox.js')}"></script>
+    <script type="text/javascript" src="{!URLFOR($Resource.jqxgrid,'/jqwidgets/jqxcheckbox.js')}"></script>
+    <script type="text/javascript" src="{!URLFOR($Resource.jqxgrid,'/jqwidgets/jqxgrid.js')}"></script>
+    <script type="text/javascript" src="{!URLFOR($Resource.jqxgrid,'/jqwidgets/jqxgrid.selection.js')}"></script>
+    <script type="text/javascript" src="{!URLFOR($Resource.jqxgrid,'/jqwidgets/jqxgrid.columnsresize.js')}"></script>
+    <script type="text/javascript" src="{!URLFOR($Resource.jqxgrid,'/jqwidgets/jqxgrid.filter.js')}"></script>
+    <script type="text/javascript" src="{!URLFOR($Resource.jqxgrid,'/jqwidgets/jqxgrid.pager.js')}"></script>
+    <script type="text/javascript" src="{!URLFOR($Resource.jqxgrid,'/jqwidgets/jqxdropdownlist.js')}"></script>
+    <script type="text/javascript" src="{!URLFOR($Resource.jqxgrid,'/jqwidgets/jqxgrid.sort.js')}"></script>
+    <script type="text/javascript" src="{!URLFOR($Resource.jqxgrid,'/scripts/demos.js')}"></script>
+    
+    <style>
+        body{padding: 15px;}
+        a.slds-input{
+            width: 35px !important;
+            position: absolute !important;
+            right: 15px !important;
+            padding: 7px !important;
+            border: none !important;
+            background: transparent !important;
+        }
+        .slds-scope .slds-checkbox_button:last-child>.slds-checkbox_faux, .slds-scope .slds-checkbox_button:last-child>.slds-checkbox--faux, .slds-scope .slds-checkbox_button .slds-button_last>.slds-checkbox_faux, .slds-scope .slds-checkbox_button .slds-button--last>.slds-checkbox--faux, .slds-scope .slds-checkbox_button:last-child>.slds-checkbox_button__label, .slds-scope .slds-checkbox_button:last-child>.slds-checkbox--button__label, .slds-scope .slds-checkbox--button:last-child>.slds-checkbox_faux, .slds-scope .slds-checkbox--button:last-child>.slds-checkbox--faux, .slds-scope .slds-checkbox--button .slds-button_last>.slds-checkbox_faux, .slds-scope .slds-checkbox--button .slds-button--last>.slds-checkbox--faux, .slds-scope .slds-checkbox--button:last-child>.slds-checkbox_button__label, .slds-scope .slds-checkbox--button:last-child>.slds-checkbox--button__label {
+            border-radius: 0 .25rem .25rem 0;
+            margin: 0 !important;
+            line-height: var(--sds-c-button-line-height, 1.875rem) !important;
+        }
+        .slds-scope .slds-truncate {
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: normal;
+        }
+        .addFilterRemoveAll {
+            display: flex;
+            padding: 5px;
+            justify-content: space-between;
+        }
+        .addFilterRemoveAll a {
+            font-size: var(--lwc-fontSizeMedium,0.8125rem);
+            font-weight: var(--lwc-fontWeightRegular,400);
+        }
+        .addFilterRemoveAll a {
+            font-size: var(--lwc-fontSizeMedium,0.8125rem);
+            font-weight: var(--lwc-fontWeightRegular,400);
+        }
+        .panelBody ol {
+            margin: 0;
+            padding-left: 0;
+        }
+        .forceFilterPanelFilterCriterion .wrapper {
+            border: var(--lwc-colorBorderButtonDefault,rgb(221, 219, 218)) 1px solid;
+            border-radius: var(--lwc-borderRadiusMedium,0.25rem);
+            padding: var(--lwc-spacingSmall,0.75rem);
+        }
+        .forceFilterPanelFilterCriterion .trigger {
+            display: inline-block;
+            width: 93%;
+        }
+        .forceFilterPanelFilterCriterion .filterInfoWrapper {
+            display: inline-block;
+        }
+        .forceFilterPanelFilterCriterion .fieldLabel {
+            color: var(--lwc-colorTextLabel,rgb(62, 62, 60));
+            font-weight: var(--lwc-fontWeightRegular,400);
+            font-size: var(--lwc-fontSizeSmall,0.75rem);
+            line-height: var(--lwc-lineHeightText,1.5);
+        }
+        .forceFilterPanelFilterCriterion .closeX {
+            float: right;
+            color: var(--lwc-colorTextIconDefaultHint,rgb(176, 173, 171));
+        }
+        
+        .slds-checkbox_button label, .slds-scope .slds-checkbox_button [type=checkbox]:checked+.slds-checkbox_faux, .slds-scope .slds-checkbox_button [type=checkbox]:checked+.slds-checkbox--faux, .slds-scope .slds-checkbox_button [type=checkbox]:checked~.slds-checkbox_faux, .slds-scope .slds-checkbox_button [type=checkbox]:checked~.slds-checkbox--faux, .slds-scope .slds-checkbox_button [type=checkbox]:checked+.slds-checkbox_button__label, .slds-scope .slds-checkbox_button [type=checkbox]:checked+.slds-checkbox--button__label, .slds-scope .slds-checkbox--button [type=checkbox]:checked+.slds-checkbox_faux, .slds-scope .slds-checkbox--button [type=checkbox]:checked+.slds-checkbox--faux, .slds-scope .slds-checkbox--button [type=checkbox]:checked~.slds-checkbox_faux, .slds-scope .slds-checkbox--button [type=checkbox]:checked~.slds-checkbox--faux, .slds-scope .slds-checkbox--button [type=checkbox]:checked+.slds-checkbox_button__label, .slds-scope .slds-checkbox--button [type=checkbox]:checked+.slds-checkbox--button__label {
+            margin: 0;
+            line-height: var(--sds-c-button-line-height, 1.875rem) !important;
+        }
+        
+        table thead th:first-child {
+            position: sticky !important;
+            left: 0;
+            z-index: 8000 !important;
+        }
+        
+        table thead th:nth-child(2) {
+            position: sticky !important;
+            left: 30px;
+            z-index: 8000 !important;
+        }
+        
+        table tbody th {
+            position: sticky !important;
+            left: 0;
+            background: white;
+            z-index: 8000 !important;
+        }
+        
+        table tbody td:nth-child(2) {
+            position: sticky !important;
+            left: 30px;
+            background: white;
+            z-index: 8000 !important;
+        }
+        
+        .slds-scope .slds-card__body_inner, .slds-scope .slds-card__body--inner {
+            padding: 0 !important;
+            margin: 0;
+            margin-top: 10px;
+        }
+        
+        .slds-scope .slds-card__header {
+            padding: 0;
+            margin: 0;
+        }
+        
+        .jqx-widget-header {
+            background: rgb(250, 250, 249);
+        }
+        
+        .jqx-widget-content {
+            border-color: #e3e3e3;
+        }
+        
+        .jqx-widget .jqx-grid-cell, .jqx-widget .jqx-grid-column-header, .jqx-widget .jqx-grid-group-cell {
+            border-color: #ddd;
+        }
+    </style>
+    
+    <script>
+        var tableIds = '';
+        function approvalModal()
+        {
+            $('#approvalModal').addClass('slds-fade-in-open');
+            $('#slds-backdrop').addClass('slds-backdrop_open');
+        }
+        
+        function rejectModal()
+        {
+            $('#rejectModal').addClass('slds-fade-in-open');
+            $('#slds-backdrop').addClass('slds-backdrop_open');
+        }
+        
+        function assignModal()
+        {
+            $('#assignModal').addClass('slds-fade-in-open');
+            $('#slds-backdrop').addClass('slds-backdrop_open');
+        }
+        
+        function closeModal()
+        {
+            $('#assignModal,#approvalModal,#rejectModal').removeClass('slds-fade-in-open');
+            $('#slds-backdrop').removeClass('slds-backdrop_open');
+        }
+        
+        function approveModalCall()
+        {
+            var ids = '';
+            <apex:repeat value="{!atwList}" var="a">
+                var rowindexes = $('#{!a.approvalType}jqxgrid').jqxGrid('getselectedrowindexes');
+                var boundrows = $('#{!a.approvalType}jqxgrid').jqxGrid('getboundrows');
+                for(var i =0; i < rowindexes.length; i++)
+                {
+                    var row = boundrows[rowindexes[i]];
+                    ids += row.Id + '~~~';
+                }
+            </apex:repeat>
+            
+            callApproveRejectRequests(ids, $('[id$="approveComment"]').val(), 'Approve');
+        }
+        
+        function rejectModalCall()
+        {
+            var ids = '';
+            <apex:repeat value="{!atwList}" var="a">
+                var rowindexes = $('#{!a.approvalType}jqxgrid').jqxGrid('getselectedrowindexes');
+                var boundrows = $('#{!a.approvalType}jqxgrid').jqxGrid('getboundrows');
+                for(var i =0; i < rowindexes.length; i++)
+                {
+                    var row = boundrows[rowindexes[i]];
+                    ids += row.Id + '~~~';
+                }
+            </apex:repeat>
+            
+            callApproveRejectRequests(ids, $('[id$="rejectComment"]').val(), 'Reject');
+        }
+        
+        function reassignModalCall()
+        {
+            var ids = '';
+            <apex:repeat value="{!atwList}" var="a">
+                var rowindexes = $('#{!a.approvalType}jqxgrid').jqxGrid('getselectedrowindexes');
+                var boundrows = $('#{!a.approvalType}jqxgrid').jqxGrid('getboundrows');
+                for(var i =0; i < rowindexes.length; i++)
+                {
+                    var row = boundrows[rowindexes[i]];
+                    ids += row.Id + '~~~';
+                }
+            </apex:repeat>
+            
+            callReassign(ids, $('[id$="assignComment"]').val(), $('[id$="userId_lkid"]').val());
+        }
+        
+        function checkAll(approvalType, chk)
+        {
+            $('.'+approvalType).prop('checked', chk);
+        }
+        
+        function showHideTable(tableId)
+        {
+            if(tableIds == ''){
+                $('.crd').hide();
+                tableIds += tableId+',';
+                $('#'+tableId+'ID').show();
+            }
+            else if(tableIds.indexOf(tableId) != -1)
+            {
+                $('#'+tableId+'ID').hide();
+                tableIds = tableIds.replace(tableId+',', '');
+            }
+            else
+            {
+                tableIds += tableId+',';
+                $('#'+tableId+'ID').show();
+            }
+            
+            if(tableIds == '') $('.crd').show();
+        }
+        
+        function showHideTableJS()
+        {
+            $('.crd').hide();
+            if(tableIds == '') $('.crd').show();
+            else{
+                var tIds = tableIds.split(',');
+                for(var i=0 ; i < tIds.length; i++)
+                {
+                    if(tIds[i] != '')
+                    {
+                        $('#'+tIds[i]+'ID').show();
+                    }
+                }
+            }
+        }
+        
+        $(document).ready(function(){
+            initGrd();
+        });
+        
+        function formatDate(d)
+        {
+            if(d == 'Invalid Date') return '';
+            var datestring = ("0" + d.getDate()).slice(-2) + "/" + ("0"+(d.getMonth()+1)).slice(-2) + "/" +d.getFullYear();    
+            
+            return datestring;
+        }
+        
+        function formatDateTime(d)
+        {
+            if(d == 'Invalid Date') return '';
+            var datestring = ("0" + d.getDate()).slice(-2) + "/" + ("0"+(d.getMonth()+1)).slice(-2) + "/" +
+                        d.getFullYear() + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);    
+            
+            return datestring;
+        }
+    </script>
+    
+    <body xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <apex:actionStatus id="waitStatus">      
+            <apex:facet name="start">
+                <div id="slds-backdrop" class="slds-backdrop slds-backdrop_open"></div>
+                <apex:image style="position: fixed; left: 48%; top: 48%; width: 3%; height: 3%; z-index: 100001;" value="/img/loading.gif" title="Processing..."/>
+            </apex:facet>
+            <apex:facet name="stop"></apex:facet>
+        </apex:actionStatus>
+        
+        <div class="slds-scope">
+            <div class="slds-card">
+                <div class="slds-page-header">
+                    <div class="slds-page-header__row">
+                        <div class="slds-page-header__col-title">
+                            <div class="slds-media">
+                                <div class="slds-media__figure">
+                                    <span class="slds-icon_container slds-icon-standard-approval">
+                                        <svg class="slds-icon slds-page-header__icon" aria-hidden="true">
+                                            <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/standard-sprite/svg/symbols.svg#approval')}"></use>
+                                        </svg>
+                                    </span>
+                                </div>
+                                <div class="slds-media__body">
+                                    <div class="slds-page-header__name">
+                                        <div class="slds-page-header__name-title">
+                                            <h1>
+                                                <span>Approvals</span>
+                                                <span class="slds-page-header__title slds-truncate" title="All Approvals">All Approvals</span>
+                                            </h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-page-header__col-actions">
+                            <div class="slds-page-header__controls">
+                                <div class="slds-page-header__control">
+                                    <ul class="slds-button-group-list">
+                                        <li>
+                                            <button class="slds-button slds-button_neutral" onclick="approvalModal();">Approve</button>
+                                        </li>
+                                        <li>
+                                            <button class="slds-button slds-button_neutral" onclick="rejectModal();">Reject</button>
+                                        </li>
+                                        <li>
+                                            <button class="slds-button slds-button_neutral" onclick="assignModal();">Reassign</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-page-header__row">
+                        <div class="slds-page-header__col-meta">
+                            <apex:outputPanel id="topPanel">
+                                <p class="slds-page-header__meta-text">{!itemCount} items</p>
+                                <fieldset class="slds-form-element">
+                                    <legend class="slds-form-element__legend slds-form-element__label">Select Objects</legend>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-checkbox_button-group">
+                                            <apex:repeat value="{!atwList}" var="a">
+                                                <span class="slds-button slds-checkbox_button">
+                                                    <input type="checkbox" id="{!a.approvalType}" value="{!a.approvalType}" name="checkbox" />
+                                                    <label class="slds-checkbox_button__label" for="{!a.approvalType}" onclick="showHideTable('{!a.approvalType}');">
+                                                        <span class="slds-checkbox_faux">{!a.approvalType}</span>
+                                                    </label>
+                                                </span>
+                                            </apex:repeat>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </apex:outputPanel>
+                        </div>
+                        <div class="slds-page-header__col-controls">
+                            <div class="slds-page-header__controls">
+                                <div class="slds-page-header__control">
+                                    <button class="slds-button slds-button_icon slds-button_icon-border-filled" title="Refresh List" onclick="refreshData(); return false;">
+                                        <svg class="slds-button__icon" aria-hidden="true">
+                                            <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#refresh')}"></use>
+                                        </svg>
+                                        <span class="slds-assistive-text">Refresh List</span>
+                                    </button>
+                                </div>
+                                <div class="slds-page-header__control">
+                                    <ul class="slds-button-group-list">
+                                        <li>
+                                            <button onclick="$('#filterDiv').toggle();" class="slds-button slds-button_icon slds-button_icon-border-filled" title="Filters">
+                                                <svg class="slds-button__icon" aria-hidden="true">
+                                                    <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#filterList')}"></use>
+                                                </svg>
+                                                <span class="slds-assistive-text">Filters</span>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-page-body">
+                    <div id="filterDiv" style="display: none;" class="slds-grid slds-no-flex forceListViewManagerSecondaryDisplayManager">
+                        <div style="position: absolute;
+                                    z-index: 111111;
+                                    min-height: 500px;
+                                    right: 0;" class="slds-panel slds-size_medium slds-panel_docked slds-panel_docked-right slds-grid slds-grid_vertical forceFilterPanel">
+                            <div class="slds-panel__header panelHeader" data-aura-rendered-by="1878:0">
+                                <div data-aura-rendered-by="1884:0">
+                                    <button onclick="$('#filterDiv').toggle();" class="slds-button slds-button_neutral headerButton test-cancelButton" type="button" data-aura-rendered-by="1887:0">
+                                        Cancel
+                                    </button>
+                                </div>
+                                <div class="slds-grid slds-col slds-grid_align-end" data-aura-rendered-by="1892:0">
+                                    <div class="slds-button-group" role="group" data-aura-rendered-by="1919:0">
+                                        <button onclick="callSaveFilters();" class="slds-button slds-button_brand saveButton headerButton" type="button" data-aura-rendered-by="1896:0">
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-scrollable--y" data-aura-rendered-by="1922:0">
+                                <div class="slds-panel__body panelBody" data-aura-rendered-by="1923:0">
+                                    <ol class="">
+                                        <apex:outputPanel id="fPanel">
+                                            <apex:variable value="{!0}" var="x"/>
+                                            <apex:repeat value="{!filters}" var="f">
+                                                <li style="margin-bottom: 5px;">
+                                                    <div class="forceFilterPanelFilterCriterion">
+                                                        <div class="wrapper" id="filterPanelFieldCriterion2">
+                                                            <a class="trigger" href="javascript:void(0);">
+                                                                <span class="filterInfoWrapper">
+                                                                    <div class="fieldLabel">{!f.objectName}: {!f.fieldLabel}
+                                                                    </div>
+                                                                    <span class="operatorAndOperand">
+                                                                        <span class="test-operatorWrapper">{!f.filterLabel}</span>
+                                                                        &nbsp;
+                                                                        <span class="test-operandsWrapper">
+                                                                            <span class="uiOutputText">{!f.fieldValue}</span>
+                                                                        </span>
+                                                                    </span>
+                                                                </span>
+                                                            </a>
+                                                            <a class="closeX" href="javascript:void(0);" onclick="cremoveFilter({!x});">
+                                                                X
+                                                            </a>
+                                                            <apex:variable value="{!x+1}" var="x"/>
+                                                        </div><!--render facet: 2294:0-->
+                                                    </div>
+                                                </li>
+                                            </apex:repeat>
+                                        </apex:outputPanel>
+                                    </ol>
+                                    
+                                    <div class="addFilterRemoveAll" data-aura-rendered-by="2299:0">
+                                        <a class="addFilter" onclick="$('#addFilter').toggle();" role="button" data-aura-rendered-by="2300:0" href="javascript:void(0);">Add Filter</a>
+                                        <a class="removeAll" onclick="callRemoveAll();" role="button" data-aura-rendered-by="2302:0" href="javascript:void(0);">Remove All</a>
+                                    </div>
+                                    
+                                    <div id="addFilter" class="uiPanel--default uiPanel positioned west open active" style="display:none;border: 1px solid #ddd;
+                                                                                                                padding: 10px;overflow:hidden;
+                                                                                                                border-radius: 3px;">
+                                        <div class="container">
+                                            <apex:form id="frmfltr">
+                                                <apex:actionFunction name="callAddFilter" action="{!addFilter}" reRender="fPanel, frmfltr" oncomplete="$('#addFilter').hide();"/>
+                                                <apex:actionFunction name="callRemoveAll" action="{!removeAllFilter}" reRender="fPanel, frmfltr" oncomplete="$('#addFilter').hide();"/>
+                                                <apex:actionFunction status="waitStatus" name="callSaveFilters" action="{!saveFilter}" reRender="frm,fPanel, frmfltr" oncomplete="$('#filterDiv').hide();showHideTableJS();"/>
+                                                <apex:actionFunction name="cremoveFilter" action="{!removeFilter}" reRender="fPanel, frmfltr">
+                                                    <apex:param name="arg1" value="" assignTo="{!filterIndex}"/>
+                                                </apex:actionFunction>
+                                                
+                                                <div class="wrapper forceFilterPanelFilterEditor">
+                                                   <div class="forceRecordLayout">
+                                                        <label class="inputLabel uiLabel">Field</label>
+                                                        <apex:selectList value="{!selectedField}" styleClass="slds-select" size="1">
+                                                            <apex:selectOptions value="{!fields}"></apex:selectOptions>
+                                                        </apex:selectList>
+                                                    </div>
+                                                    <div class="forceRecordLayout" style="margin-top:10px;">
+                                                        <label class="inputLabel uiLabel">Operator</label>
+                                                        <apex:selectList value="{!selectedOp}" styleClass="slds-select" size="1">
+                                                            <apex:selectOptions value="{!soList}"></apex:selectOptions>
+                                                        </apex:selectList>
+                                                    </div>
+                                                    <div class="forceRecordLayout" style="margin-top:10px;">
+                                                        <label class="inputLabel uiLabel">Value</label>
+                                                        <apex:inputText value="{!selectedVal}" styleClass="slds-input"/>
+                                                    </div>
+                                                </div>
+                                                <button onclick="callAddFilter();" class="slds-button slds-button--neutral doneButton uiButton" type="button" style="float:right; margin-top:10px;">
+                                                    <span class=" label bBody" dir="ltr">Done</span>
+                                                </button>
+                                            </apex:form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <apex:form id="frm">
+                        
+                        <apex:actionFunction name="refreshData" action="{!init}" reRender="frm, topPanel" status="waitStatus" oncomplete="initGrd(); showHideTableJS();"/>
+                        
+                        <apex:actionFunction name="callApproveRejectRequests" action="{!approveRejectRequests}" reRender="frm, topPanel" status="waitStatus" oncomplete="initGrd(); closeModal();showHideTableJS();">
+                            <apex:param name="arg3" value="" assignTo="{!piwiIds}"/>
+                            <apex:param name="arg1" value="" assignTo="{!approvalComment}"/>
+                            <apex:param name="arg2" value="" assignTo="{!approvalAction}"/>
+                        </apex:actionFunction>
+                        
+                        <apex:actionFunction name="callReassign" action="{!reassign}" reRender="frm, topPanel" status="waitStatus" oncomplete="initGrd(); closeModal();showHideTableJS();">
+                            <apex:param name="arg3" value="" assignTo="{!piwiIds}"/>
+                            <apex:param name="arg1" value="" assignTo="{!approvalComment}"/>
+                            <apex:param name="arg2" value="" assignTo="{!userId}"/>
+                        </apex:actionFunction>
+                        
+                        <apex:outputPanel rendered="{!atwList.size == 0}">
+                            <div class="slds-notify slds-notify_alert slds-alert_warning" role="alert" style="margin: 1%;
+                                                                                                              width: 98%;">
+                                <h2>
+                                    No records for Approval.
+                                </h2>
+                            </div>
+                        </apex:outputPanel>
+                        
+                        <apex:repeat value="{!atwList}" var="a">
+                            <div class="slds-card crd" id="{!a.approvalType}ID" style="margin: 10px;
+                                                                border: 1px solid #ddd;
+                                                                background: #f3f3f3;
+                                                                padding: 15px;">
+                                <div class="slds-card__header slds-grid">
+                                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                        <div class="slds-media__body">
+                                            <h2 class="slds-card__header-title">
+                                                <span>{!a.approvalType} Approvals
+                                                    <input type="checkbox" onchange="selectPageRows('{!a.approvalType}jqxgrid', this.checked);"/>
+                                                </span>
+                                            </h2>
+                                        </div>
+                                    </header>
+                                </div>
+                                
+                                <div class="slds-card__body slds-card__body_inner div" style="overflow-x: hidden; overflow-y: hidden;">
+                                    <div id="{!a.approvalType}jqxgrid"></div>
+                                </div>
+                            </div>
+                        </apex:repeat>
+                        
+                        <script>
+                            function initGrd(){
+                                // prepare the data
+                                <apex:repeat value="{!atwList}" var="a">
+                                    var data = new Array();
+                        
+                                    var i=0;
+                                    <apex:repeat value="{!a.awList}" var="aw">
+                                        var row = {};
+                                       
+                                        <apex:repeat value="{!a.fwList}" var="f">
+                                            if('{!f.fieldType}' == 'DATE')
+                                                row["{!f.fieldName}"] = formatDate(new Date('{!aw.obj[f.fieldName]}'));
+                                            else if('{!f.fieldType}' == 'DATETIME')
+                                                row["{!f.fieldName}"] = formatDateTime(new Date('{!aw.obj[f.fieldName]}'));
+                                            else if('{!f.fieldType}' == 'REFERENCE')
+                                            {
+                                                row["{!f.fieldName}"] = '{!aw.obj[f.fieldName]}';
+                                            }
+                                            else
+                                                row["{!f.fieldName}"] = '{!aw.obj[f.fieldName]}';
+                                        </apex:repeat>
+                                        
+                                        row["Id"] = "{!aw.piwi.Id}";
+                                        row["ACTORID"] = "{!aw.piwi.ACTOR.Name}";
+                                        row["CreatedDate"] = formatDateTime(new Date("{!aw.piwi.ProcessInstance.CreatedDate}"));
+                                        row["comments"] = "{!aw.comments}";
+                                        
+                                        data[i] = row;
+                                        i++;
+                                    </apex:repeat>
+                        
+                                    var source =
+                                    {
+                                        localdata: data,
+                                        datatype: "array",
+                                        datafields:
+                                        [
+                                            <apex:repeat value="{!a.fwList}" var="f">
+                                                { name: '{!f.fieldName}', type: 'string' },
+                                            </apex:repeat>
+                                            { name: 'Id', type: 'string' },
+                                            { name: 'ACTORID', type: 'string' },
+                                            { name: 'CreatedDate', type: 'string'},
+                                            { name: 'comments', type: 'string' }
+                                        ],
+                                        id: 'Id'
+                                    };
+                        
+                                    var dataAdapter = new $.jqx.dataAdapter(source);
+                               
+                                    $("#{!a.approvalType}jqxgrid").jqxGrid(
+                                    {
+                                        width: '100%',
+                                        selectionmode: 'checkbox',
+                                        source: dataAdapter,
+                                        altrows: true,
+                                        pagesize: 2,
+                                        autoheight: true,
+                                        autorowheight: true,
+                                        columnsresize: true,
+                                        sortable: true,
+                                        pageable: true,
+                                        showfilterrow: true,
+                                        filterable: true,
+                                        columns: [
+                                            <apex:variable var="index" value="{!0}" />
+                                            <apex:repeat value="{!a.fwList}" var="f">
+                                                { text: '{!f.fieldLabel}', datafield: '{!f.fieldName}', width: 120, pinned: ('{!index}' == '0' ? true : false)},
+                                                <apex:variable var="index" value="{!index+1}" />
+                                            </apex:repeat>
+                                          { text: 'Most Recent Approver', datafield: 'ACTORID'},
+                                          { text: 'Date Submitted', datafield: 'CreatedDate'},
+                                          { text: 'Comments', datafield: 'comments', width: 200}
+                                        ]
+                                    });
+                                </apex:repeat>
+                            }
+                            
+                            function selectPageRows(gridid, b)
+                            {
+                                var pi = $("#" + gridid).jqxGrid('getpaginginformation');
+                                var arrSel = $("#" + gridid).jqxGrid('selectedrowindexes').slice();
+                                var arrDisplayRows = $("#" + gridid).jqxGrid('getdisplayrows');
+                            
+                                /* get only the rowdata */
+                                var arrRows = [];
+                                for (var rws = 0; rws < arrDisplayRows.length; rws++) {
+                            
+                                    if (arrDisplayRows[rws].boundindex != undefined) {
+                                        arrRows.push(arrDisplayRows[rws]);
+                                    }
+                                }
+                            
+                                /* now we select items on page */
+                                var rowsindex = 0
+                                var s = "";
+                            
+                                for (p = 0; p < pi.pagescount; p++) {
+                            
+                                    if (p == pi.pagenum) {
+                            
+                                        for (rr = rowsindex; rr < (rowsindex + pi.pagesize); rr++) {
+                            
+                                            if (rr < arrRows.length) {
+                            
+                                                if (b) {
+                                                    if ($.inArray($("#" + gridid).jqxGrid('getrowboundindexbyid', arrRows[rr].uid), arrSel) < 0) {
+                                                        $("#" + gridid).jqxGrid('selectrow', $("#" + gridid).jqxGrid('getrowboundindexbyid', arrRows[rr].uid));
+                                                    }
+                                                }
+                                                else {
+                                                    $("#" + gridid).jqxGrid('unselectrow', $("#" + gridid).jqxGrid('getrowboundindexbyid', arrRows[rr].uid));
+                                                }
+                                            }
+                            
+                                        }
+                                    }
+                            
+                                    rowsindex = rowsindex + pi.pagesize;
+                                }
+                            }
+                        </script>
+                        
+                        <!--<apex:repeat value="{!atwList}" var="a">
+                            <div class="slds-card crd" id="{!a.approvalType}ID" style="margin: 10px;
+                                                            border: 1px solid #ddd;
+                                                            background: #f3f3f3;
+                                                            padding: 15px;">
+                                <div class="slds-card__header slds-grid">
+                                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                        <div class="slds-media__body">
+                                            <h2 class="slds-card__header-title">
+                                                <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="Accounts">
+                                                    <span>{!a.approvalType} Approvals</span>
+                                                </a>
+                                            </h2>
+                                        </div>
+                                    </header>
+                                </div>
+                                <div class="slds-card__body slds-card__body_inner div" style="overflow-x: auto; overflow-y: hidden;">
+                                    <table aria-multiselectable="true" id="name" class="slds-table slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols" role="grid">
+                                        <thead class="thead">
+                                            <tr class="slds-line-height_reset">
+                                                <th class="slds-text-align_right headcol" scope="col" style="width:30px">
+                                                    <div class="slds-th__action slds-th__action_form">
+                                                        <input type="checkbox" name="options" onchange="checkAll('{!a.approvalType}', this.checked);"/>
+                                                    </div>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle">
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </th>
+                                                <apex:repeat value="{!a.fwList}" var="f">
+                                                    <th style="width:150px" aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col">
+                                                        <div class="slds-th__action slds-text-link_reset slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                            <span class="slds-truncate" title="{!f.fieldLabel}">{!f.fieldLabel}</span>
+                                                        </div>
+                                                        <div class="slds-resizable">
+                                                            <span class="slds-resizable__handle">
+                                                                <span class="slds-resizable__divider"></span>
+                                                            </span>
+                                                        </div>
+                                                    </th>
+                                                </apex:repeat>
+                                                <th style="width:230px" aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col">
+                                                    <div class="slds-th__action slds-text-link_reset slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                        <span class="slds-truncate" title="Most Recent Approver">Most Recent Approver</span>
+                                                    </div>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle">
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </th>
+                                                <th style="width:120px" aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col">
+                                                    <div class="slds-th__action slds-text-link_reset slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                        <span class="slds-truncate" title="Date Submitted">Date Submitted</span>
+                                                    </div>
+                                                    <div class="slds-resizable">
+                                                        <span class="slds-resizable__handle">
+                                                            <span class="slds-resizable__divider"></span>
+                                                        </span>
+                                                    </div>
+                                                </th>
+                                                <th style="width:200px;" aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col">
+                                                    <div class="slds-th__action slds-text-link_reset slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                                        <span class="slds-truncate" title="Comments">Comments</span>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbody">
+                                            <apex:repeat value="{!a.awList}" var="aw">
+                                                <tr aria-selected="false" class="slds-hint-parent">
+                                                    <th class="slds-text-align_right headcol" role="gridcell">
+                                                        <apex:inputCheckbox styleClass="{!a.approvalType}" value="{!aw.isSelected}"/>
+                                                    </th>
+                                                    <apex:repeat value="{!a.fwList}" var="f">
+                                                        <td role="gridcell">
+                                                            <div class="slds-truncate"><apex:outputField value="{!aw.obj[f.fieldName]}"/></div>
+                                                        </td>
+                                                    </apex:repeat>
+                                                    <td role="gridcell">
+                                                        <div class="slds-truncate"><apex:outputField value="{!aw.piwi.ACTORID}"/></div>
+                                                    </td>
+                                                    <td role="gridcell">
+                                                        <div class="slds-truncate"><apex:outputField value="{!aw.piwi.ProcessInstance.CreatedDate}"/></div>
+                                                    </td>
+                                                    <td role="gridcell">
+                                                        <div class="slds-truncate"><apex:outputText escape="false" value="{!aw.comments}"/></div>
+                                                    </td>
+                                                </tr>
+                                            </apex:repeat>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </apex:repeat>-->
+                    </apex:form>
+                </div>
+            </div>
+            
+            <section id="approvalModal" role="dialog" class="slds-modal">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="closeModal();">
+                            <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                            </svg>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">
+                            Approve Requests
+                        </h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium">
+                        <apex:form >
+                            <apex:outputLabel value="Comments"></apex:outputLabel>
+                            <apex:inputTextarea id="approveComment" label="Comments" rows="8" styleClass="slds-textarea"/>
+                        </apex:form>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick="closeModal();">Cancel</button>
+                        <button class="slds-button slds-button_brand" onclick="approveModalCall();">Approve</button>
+                    </footer>
+                </div>
+            </section>
+            
+            <section id="rejectModal" role="dialog" class="slds-modal">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="closeModal();">
+                            <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                            </svg>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">
+                            Reject Requests
+                        </h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium">
+                        <apex:form >
+                            <apex:outputLabel value="Comments"></apex:outputLabel>
+                            <apex:inputTextarea id="rejectComment" rows="8" styleClass="slds-textarea"/>
+                        </apex:form>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick="closeModal();">Cancel</button>
+                        <button class="slds-button slds-button_brand" onclick="rejectModalCall();">Reject</button>
+                    </footer>
+                </div>
+            </section>
+            
+            <section id="assignModal" role="dialog" class="slds-modal">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="closeModal();">
+                            <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                            </svg>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">
+                            Reassign Approval Request
+                        </h2>
+                    </header>
+                    <apex:form id="frm2">
+                        <div class="slds-modal__content slds-p-around_medium">
+                            
+                                <apex:outputLabel value="Reassign To"></apex:outputLabel>
+                                <apex:inputField id="userId" required="true" value="{!con.OwnerId}" styleClass="slds-input"/>
+                                
+                                <apex:outputLabel value="Comments"></apex:outputLabel>
+                                <apex:inputTextarea id="assignComment" rows="8" styleClass="slds-textarea"/>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <button class="slds-button slds-button_neutral" onclick="closeModal();">Cancel</button>
+                            <button class="slds-button slds-button_brand" onclick="reassignModalCall();">Reassign</button>
+                        </footer>
+                    </apex:form>
+                </div>
+            </section>
+            
+            <div id="slds-backdrop" class="slds-backdrop"></div>
+        </div>
+    </body>
+</apex:page>

@@ -1,0 +1,759 @@
+<apex:page applyBodyTag="false" title="Product Catalogs" controller="ProductCatalogController" lightningStylesheets="true" sidebar="false" showHeader="false">
+    <apex:slds />
+    <title>Product Catalogs</title>
+    <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"/>
+    <apex:includeScript value="https://code.jquery.com/jquery-1.12.4.js"/>
+    <apex:includeScript value="https://code.jquery.com/ui/1.12.1/jquery-ui.js"/>
+    
+    <apex:stylesheet value="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+    
+    <style>
+        body{padding: 0px;
+             overflow-x: hidden;}
+    
+    .slds-scope .slds-form__row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    
+    a.slds-input
+    {
+        border: none !important;
+        margin-left: -40px;
+        background-color: transparent !important;
+        width: 50px;
+    }
+    .slds-card{background: #f3f3f3 !important;}
+    #filters, #layout, #max, #min {display:none;}
+    .slds-scope .slds-panel__header {
+        border-bottom: none;
+    }
+    #leadInfo{
+        position: absolute;
+        z-index: 111;
+        width: 400px;
+        top: 40px;
+        right: 15px;
+        box-shadow: 0 10px 10px #000;
+        display:none;
+    }
+    #leadInfo th {
+        font-weight: bold;
+    }
+    </style>
+    
+    <script>
+        function leadModal()
+        {
+            $('#leadModal').addClass('slds-fade-in-open');
+            $('#slds-backdrop').addClass('slds-backdrop_open');
+            $('#leadInfo').hide();
+        }
+    
+        function closeModal()
+        {
+            $('#leadModal').removeClass('slds-fade-in-open');
+            $('#slds-backdrop').removeClass('slds-backdrop_open');
+        }
+               
+        $(document).ready(function(){
+           init();
+        });
+        
+        function init()
+        {
+            if('{!$CurrentPage.parameters.id}' != '')
+           {
+               closeModal();
+           }
+           closeModal();
+           
+           $('#filterBtn').click(function(){
+            $('#filters').toggle();
+           });
+           
+           $('#sliderBtn').click(function(){
+            $('#layout').toggle();
+           });
+           
+           $( "#slider-range-max" ).slider({
+               range: "max",
+               min: 0,
+               max: {!$Setup.RowsColumns__c.Max_Rows__c},
+               value: 1,
+               slide: function( event, ui ) {
+                   $( "#max" ).val( ui.value );
+               }
+           });
+           
+           $( "#slider-range-min" ).slider({
+               range: "max",
+               min: 0,
+               max: {!$Setup.RowsColumns__c.Max_Columns__c},
+               value: {!$Setup.RowsColumns__c.Columns__c},
+               slide: function( event, ui ) {
+                   $( "#min" ).val( ui.value );
+                   
+                   ProductCatalogController.saveColumn(ui.value, function(result){
+                   
+                   });
+                   
+                   var cls = 'slds-medium-size--1-of-' + ui.value;
+                   
+                   for(var i=1; i <= {!$Setup.RowsColumns__c.Max_Columns__c}; i++)
+                   {
+                       $('.productListGrid').removeClass('slds-medium-size--1-of-'+i);
+                   }
+                   
+                   $('.productListGrid').addClass(cls);
+               }
+           });
+           
+           var dClm = parseInt({!$Setup.RowsColumns__c.Columns__c});
+           $('.productListGrid').addClass('slds-medium-size--1-of-'+dClm);
+        }
+        
+        function reloadLead(){
+            var leadId = $('#leadId').val();
+            window.location.href = '/apex/ProductCatalog?id='+leadId;
+        }
+        
+        function convertLead()
+        {
+            if(confirm('Are you sure want to checkout? This will covert lead and create opportunity with favorite products.')){
+                convertLeadCall();
+            }
+        }
+    </script>
+    
+    <body xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <apex:actionStatus id="waitStatus">      
+            <apex:facet name="start">
+                <div id="slds-backdrop" class="slds-backdrop slds-backdrop_open"></div>
+                <apex:image style="position: fixed; left: 48%; top: 48%; width: 3%; height: 3%; z-index: 100001;" value="/img/loading.gif" title="Processing..."/>
+            </apex:facet>
+            <apex:facet name="stop"></apex:facet>
+        </apex:actionStatus>
+        
+        <div class="slds-scope">
+            
+            <div class="slds-card" id="leadInfo">
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body">
+                            <h2 class="slds-card__header-title">
+                                <a href="#" class="slds-card__header-link slds-truncate" title="Add Contacts">
+                                    <span>Lead Information</span>
+                                </a>
+                            </h2>
+                        </div>
+                        <div class="slds-no-flex">
+                            <button class="slds-button slds-button_neutral" onclick="leadModal();">New</button>
+                        </div>
+                    </header>
+                </div>
+                <div class="slds-card__body slds-card__body_inner" style="padding:0;">
+                    <apex:variable value="{!0}" var="ci"/>
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                        <tbody>
+                            <tr class="slds-line-height_reset">
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="First Name">First Name</div>
+                                </th>
+                                <td>
+                                    <apex:outputField value="{!lead.FirstName}" styleClass="slds-input"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Last Name">Last Name</div>
+                                </th>
+                                <td>
+                                    <apex:outputField value="{!lead.LastName}" styleClass="slds-input"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Email">Email</div>
+                                </th>
+                                <td>
+                                    <apex:outputField value="{!lead.Email}" styleClass="slds-input"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Mobile">Mobile</div>
+                                </th>
+                                <td>
+                                    <apex:outputField value="{!lead.MobilePhone}" styleClass="slds-input"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Phone">Phone</div>
+                                </th>
+                                <td>
+                                    <apex:outputField value="{!lead.Phone}" styleClass="slds-input"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="slds-builder-header_container">
+                <div class="slds-builder-toolbar" role="toolbar">
+                    <div class="slds-builder-toolbar__item-group" aria-label="Edit actions">
+                        <apex:outputPanel id="itemPanel">
+                            <apex:outputPanel rendered="{!!showFav}" layout="none">
+                                <label class="slds-label" style="font-size: 14px;
+                                                                 padding: 7px 0;
+                                                                 float: left;">{!productList.size} Items</label>
+                            </apex:outputPanel>
+                            <apex:outputPanel rendered="{!showFav}" layout="none">
+                                <label class="slds-label" style="font-size: 14px;
+                                                                 padding: 7px 0;
+                                                                 float: left;">{!favList.size} Favorite Items</label>
+                            </apex:outputPanel>
+                        </apex:outputPanel>
+                    </div>
+                    <div class="slds-builder-toolbar__actions" aria-label="Document actions">
+                        <button class="slds-button slds-button_icon slds-button_icon-border" id="filterBtn" style="background: #333;
+                                                                                                                    color: #fff;
+                                                                                                                    border-color: #333;">
+                            <svg class="slds-button__icon" aria-hidden="true">
+                                <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#filter')}"></use>
+                            </svg>
+                            <span class="slds-assistive-text">Cut</span>
+                        </button>
+                        <button class="slds-button slds-button_icon slds-button_icon-border" id="sliderBtn" style="background: #333;
+                                                                                                                    color: #fff;
+                                                                                                                    border-color: #333;">
+                            <svg class="slds-button__icon" aria-hidden="true">
+                                <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#slider')}"></use>
+                            </svg>
+                            <span class="slds-assistive-text">Cut</span>
+                        </button>
+                        <button class="slds-button slds-button_icon slds-button_icon-border" title="fav" onclick="showFav();" style="background: #333;
+                                                                                                                    color: #fff;
+                                                                                                                    border-color: #333;
+                                                                                                                    font-size: 26px;">
+                            <!--<svg class="slds-button__icon" aria-hidden="true">
+                                <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#checkout')}"></use>
+                            </svg>
+                            <span class="slds-assistive-text">Copy</span>-->
+                            ♥
+                        </button>
+                        <button style="background: #333;
+                                        color: #fff;
+                                        border-color: #333;" onclick="$('#leadInfo').slideToggle();" class="slds-button slds-button_icon slds-button_icon-border" title="Lead" tabindex="-1">
+                            <svg class="slds-button__icon" aria-hidden="true">
+                                <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#user')}"></use>
+                            </svg>
+                            <span class="slds-assistive-text">Paste</span>
+                        </button>
+                        <button style="background: #333;
+                                        color: #fff;
+                                        border-color: #333;" onclick="window.location.href = '/lightning/page/home';" class="slds-button slds-button_icon slds-button_icon-border" title="Lead" tabindex="-1">
+                            <svg class="slds-button__icon" aria-hidden="true">
+                                <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#home')}"></use>
+                            </svg>
+                            <span class="slds-assistive-text">Home</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="filters" style="z-index: 1111; overflow-x: hidden;background:#F2F2F6;
+                                     position: fixed;
+                                     top: 0;
+                                     right: 0;" class="slds-panel slds-size_medium slds-panel_docked slds-panel_docked-right slds-is-open" aria-hidden="false">
+                <div class="slds-panel__header">
+                    <h2 class="slds-panel__header-title slds-text-heading_small slds-truncate" title="FILTERS">FILTERS</h2>
+                    <button onclick="$('#filters').hide();" class="slds-button slds-button_icon slds-button_icon-small slds-panel__close" title="Collapse Panel Header">
+                        <svg class="slds-button__icon" aria-hidden="true">
+                            <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                        </svg>
+                        <span class="slds-assistive-text">FILTERS</span>
+                    </button>
+                </div>
+                <div class="slds-panel__body">
+                    <apex:form >
+                        <apex:actionFunction status="waitStatus" name="showFav" action="{!queryFav}" reRender="prodPanel,favPanel,itemPanel" oncomplete="init();"/>
+                        
+                        <apex:actionFunction status="waitStatus" name="convertLeadCall" action="{!convertLeadApex}" reRender="prodPanel,favPanel,itemPanel" oncomplete="init();"/>
+                        
+                        <apex:actionFunction status="waitStatus" name="addFav" action="{!saveFav}" reRender="prodPanel,favPanel,itemPanel" oncomplete="init();">
+                            <apex:param name="arg1" value="" assignTo="{!productId}"/>
+                            <apex:param name="arg2" value="" assignTo="{!amount}"/>
+                        </apex:actionFunction>
+                        
+                        <apex:actionFunction status="waitStatus" name="removeFav" action="{!deleteFav}" reRender="prodPanel,favPanel,itemPanel" oncomplete="init();">
+                            <apex:param name="arg1" value="" assignTo="{!favId}"/>
+                        </apex:actionFunction>
+                        
+                        <apex:actionFunction status="waitStatus" name="viewDetail" action="{!queryProduct}" reRender="detailPanel" oncomplete="$('#detailPanel').fadeIn();">
+                            <apex:param name="arg1" value="" assignTo="{!productId}"/>
+                        </apex:actionFunction>
+                        
+                        <apex:repeat value="{!fwList}" var="f">
+                            <div class="slds-panel__body">
+                                <div class="slds-text-link_reset slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                    <b class="slds-truncate" style="margin-bottom: 5px;" title="{!f.fieldLabel}">{!f.fieldLabel}</b>
+                                </div>
+                                <div class="slds-resizable">
+                                    <span class="slds-resizable__handle">
+                                        <span class="slds-resizable__divider"></span>
+                                    </span>
+                                </div>
+                                <div class="slds-truncate">
+                                    <apex:outputPanel rendered="{!f.fieldType == 'MULTIPICKLIST' || f.fieldType == 'PICKLIST'}">
+                                        <fieldset class="slds-form-element" style="max-height: 200px; overflow: auto;">
+                                            <div class="slds-form-element__control">
+                                                <apex:repeat value="{!f.pValues}" var="p">
+                                                    <div class="slds-checkbox">
+                                                        <input type="checkbox" name="options" id="{!p}" value="{!p}" checked="" />
+                                                        <label class="slds-checkbox__label" for="{!p}">
+                                                            <span class="slds-checkbox_faux"></span>
+                                                            <span class="slds-form-element__label">{!p}</span>
+                                                        </label>
+                                                    </div>
+                                                </apex:repeat>
+                                            </div>
+                                        </fieldset>
+                                    </apex:outputPanel>
+                                    
+                                    <!--<apex:inputField value="{!product[f.fieldName]}" styleClass="slds-input"/>-->
+                                </div>
+                            </div>
+                        </apex:repeat>
+                    </apex:form>
+                </div>
+            </div>
+            
+            <div id="layout" style="z-index: 1111;overflow-x: hidden;background:#F2F2F6;
+                                    position: fixed;
+                                    top: 0;
+                                    right: 0;" class="slds-panel slds-size_medium slds-panel_docked slds-panel_docked-right slds-is-open" aria-hidden="false">
+                <div class="slds-panel__header">
+                    <h2 class="slds-panel__header-title slds-text-heading_small slds-truncate" title="ROWS AND COLUMNS">ROWS AND COLUMNS</h2>
+                    <button onclick="$('#layout').hide();" class="slds-button slds-button_icon slds-button_icon-small slds-panel__close" title="Collapse Panel Header">
+                        <svg class="slds-button__icon" aria-hidden="true">
+                            <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                        </svg>
+                        <span class="slds-assistive-text">ROWS AND COLUMNS</span>
+                    </button>
+                </div>
+                <div class="slds-panel__body">
+                    <apex:form >
+                        <div class="slds-truncate">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="slider-id-01">
+                                    <span class="slds-slider-label">
+                                        <span class="slds-slider-label__label">Rows (max 2)</span>
+                                    </span>
+                                </label>
+                                <div class="slds-form-element__control" style="padding: 7px;">
+                                    <p>
+                                        <input type="text" id="max" style="border:0; color:#f6931f; font-weight:bold;"/>
+                                    </p>
+                                    <div id="slider-range-max"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <br/><br/>
+                        <div class="slds-truncate">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="slider-id-01">
+                                    <span class="slds-slider-label">
+                                        <span class="slds-slider-label__label">Columns (max 4)</span>
+                                    </span>
+                                </label>
+                                <div class="slds-form-element__control" style="padding: 7px;">
+                                    <p>
+                                        <input type="text" id="min" style="border:0; color:#f6931f; font-weight:bold;"/>
+                                    </p>
+                                    <div id="slider-range-min"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </apex:form>
+                </div>
+            </div>
+            
+            <apex:outputPanel id="prodPanel">
+                <apex:outputPanel rendered="{!!showFav}" layout="none">
+                    <div class="slds-grid slds-wrap slds-grid_pull-padded" style="margin-top: 50px;
+                                                                                  padding: 10px;">
+                    
+                        <apex:repeat value="{!productList}" var="p">
+                            <div class="productListGrid slds-col slds-size--1-of-1 slds-small-size--1-of-2">
+                                <div class="slds-card" style="margin:10px;">
+                                    <div class="slds-card__body slds-card__body_inner" style="padding:0; margin:0;">
+                                        <div class="slds-grid slds-gutters">
+                                            <div class="slds-col" style="text-align: center;">
+                                                <apex:outputPanel rendered="{!p.ContentDocumentLinks.size > 0}" layout="none">
+                                                    <img onclick="viewDetail('{!p.Id}');" style="cursor:pointer;border-radius: 3px 3px 0 0px; height:200px;" src="/sfc/servlet.shepherd/version/download/{!p.ContentDocumentLinks[0].ContentDocument.LatestPublishedVersionId}"/>
+                                                </apex:outputPanel>
+                                                <apex:outputPanel rendered="{!p.ContentDocumentLinks.size = 0}" layout="none">
+                                                    <img onclick="viewDetail('{!p.Id}');" style="cursor:pointer;border-radius: 3px 3px 0 0px; height:200px;" src="https://1d4au92ejd571ijfyy1m3feh-wpengine.netdna-ssl.com/wp-content/themes/velocity/images/no-image-found-360x250.png"/>
+                                                </apex:outputPanel>
+                                            </div>
+                                        </div>
+                                        <div class="slds-grid slds-gutters" style="padding:5px;">
+                                            <div class="slds-col">
+                                                <span>Description</span><br/>
+                                                <span>{!p.Name}</span>
+                                            </div>
+                                            <div class="slds-col" style="padding: 6px;
+                                                                         color: #17b;
+                                                                         font-size: 17px;
+                                                                         font-weight: bold;
+                                                                         text-align: right;
+                                                                         margin-right: 5px;">
+                                                
+                                                
+                                                <span>
+                                                    <apex:outputText value="₹{0, number, ###,###}">
+                                                        <apex:param value="{!p.PricebookEntries[0].UnitPrice}" />
+                                                    </apex:outputText>
+                                                </span>
+                                                <button style="color: #fff;
+                                                                background: #333;
+                                                                font-size: 26px;
+                                                                padding: 15px;" class="slds-button slds-button_icon slds-button_icon-small slds-panel__close" title="Add Favorite" onclick="addFav('{!p.Id}', {!p.PricebookEntries[0].UnitPrice});">
+                                                    ♥
+                                                </button> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </apex:repeat>
+                    </div>
+                </apex:outputPanel>
+            </apex:outputPanel>
+                
+            <apex:outputPanel id="favPanel">
+                <apex:outputPanel rendered="{!showFav}" layout="none">
+                    <div class="slds-grid slds-wrap slds-grid_pull-padded" style="margin-top: 50px;
+                                                                                  padding: 10px;">
+                        
+                        <div style="width:100%; text-align:right; padding-right:20px;">
+                            <button style=" font-size: 14px;
+                                            font-style: normal;
+                                            font-weight: 800;
+                                            line-height: 17px;
+                                            letter-spacing: 0px;
+                                            text-align: center;
+                                            background: #4E7AE7;
+                                            height: 39.31365966796875px;
+                                            width: 184.83050537109375px;
+                                            left: 1008.9140625px;
+                                            top: 688.5790405273438px;
+                                            border-radius: 3.9412519931793213px;
+                                            padding: 11px, 28px, 11px, 28px;
+                                            color: #fff;
+                                            border: none;"  onclick="convertLead(); return false;">
+                                
+                                CHECKOUT
+                            </button>
+                        </div>
+                        
+                        <apex:repeat value="{!favList}" var="p">
+                            <div class="productListGrid slds-col slds-size--1-of-1 slds-small-size--1-of-2">
+                                <div class="slds-card" style="margin:10px;">
+                                    <div class="slds-card__body slds-card__body_inner" style="padding:0; margin:0;">
+                                        <div class="slds-grid slds-gutters">
+                                            <div class="slds-col" style="text-align: center;">
+                                                <apex:outputPanel rendered="{!p.Product__r.Product_Catalog_Image__c != null}" layout="none">
+                                                    <img onclick="viewDetail('{!p.Id}');" style="cursor:pointer;border-radius: 3px 3px 0 0px; height:200px;" src="/sfc/servlet.shepherd/version/download/{!p.Product__r.Product_Catalog_Image__c}"/>
+                                                </apex:outputPanel>
+                                                <apex:outputPanel rendered="{!p.Product__r.Product_Catalog_Image__c = null}" layout="none">
+                                                    <img onclick="viewDetail('{!p.Id}');" style="cursor:pointer;border-radius: 3px 3px 0 0px; height:200px;" src="https://1d4au92ejd571ijfyy1m3feh-wpengine.netdna-ssl.com/wp-content/themes/velocity/images/no-image-found-360x250.png"/>
+                                                </apex:outputPanel>
+                                            </div>
+                                        </div>
+                                        <div class="slds-grid slds-gutters" style="padding:5px;">
+                                            <div class="slds-col">
+                                                <span>Description</span><br/>
+                                                <span>{!p.Product__r.Name}</span>
+                                            </div>
+                                            <div class="slds-col" style="padding: 6px;
+                                                                         color: #17b;
+                                                                         font-size: 17px;
+                                                                         font-weight: bold;
+                                                                         text-align: right;
+                                                                         margin-right: 5px;">
+                                                
+                                                <span>
+                                                    <apex:outputText value="₹{0, number, ###,###}">
+                                                        <apex:param value="{!p.Price__c}" />
+                                                    </apex:outputText>
+                                                </span>
+                                                <button style="color: #fff;
+                                                                font-size: 30px;
+                                                                background: #333;
+                                                                padding: 15px;" class="slds-button slds-button_icon slds-button_icon-small slds-panel__close" title="Remove Favorite" onclick="removeFav('{!p.Id}');">
+                                                    -
+                                                </button> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </apex:repeat>
+                    </div>
+                </apex:outputPanel>
+            </apex:outputPanel>
+            
+            
+            <apex:outputPanel id="detailPanel">
+                <div id="detailPanel" class="slds-grid slds-wrap slds-grid_pull-padded" style="position: fixed;
+                                                                                top: 0;
+                                                                                z-index: 1111;
+                                                                                width: 100%;
+                                                                                height: 100%;
+                                                                                overflow-y:auto;
+                                                                                left: 12px;
+                                                                                border-radius:0;
+                                                                                display:none;">
+                    <div class="slds-card" style="width: 100%; background: #fff;border-radius:0;">
+                        <div class="slds-card__body slds-card__body_inner" style="padding:0 12px; margin:0; background: #fff;">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size--9-of-12" style="text-align: center;
+                                                                                background: #f9f9f9;
+                                                                                border-right: 1px solid #eee;">
+                                    <apex:outputPanel rendered="{!productDetail.ContentDocumentLinks.size > 0}" layout="none">
+                                        <img style="max-height:550px;" src="/sfc/servlet.shepherd/version/download/{!productDetail.ContentDocumentLinks[0].ContentDocument.LatestPublishedVersionId}"/>
+                                    </apex:outputPanel>
+                                    <apex:outputPanel rendered="{!productDetail.ContentDocumentLinks.size = 0}" layout="none">
+                                        <img style="max-height:550px;" src="https://1d4au92ejd571ijfyy1m3feh-wpengine.netdna-ssl.com/wp-content/themes/velocity/images/no-image-found-360x250.png"/>
+                                    </apex:outputPanel>
+                                </div>
+                                <div class="slds-col slds-size--3-of-12">
+                                    <button style="color: #777;
+                                                    font-size: 19px;
+                                                    position: absolute;
+                                                    right: 15px;
+                                                    top: 10px;
+                                                    cursor: pointer;" class="slds-button slds-button_icon" onclick="$('#detailPanel').fadeOut();">
+                                        X
+                                    </button>
+                                    <br/>
+                                    <p style="font-size: 21px;
+                                                font-style: normal;
+                                                font-weight: 700;
+                                                line-height: 25px;
+                                                letter-spacing: 0em;
+                                                text-align: left;">{!productDetail.Name}</p>
+                                    
+                                    <br/>
+                                    <span style="color: #4E7AE7;
+                                                   font-size: 26px;
+                                                    font-style: normal;
+                                                    font-weight: 500;
+                                                    line-height: 32px;
+                                                    letter-spacing: 0em;
+                                                    text-align: left;
+                                                    ">{!unitPrice}</span>
+                                                    
+                                    <br/>
+                                    <br/>
+                                    <ul>
+                                        <apex:repeat value="{!fwDetailList}" var="f">
+                                            <li style=" font-size: 15px;
+                                                        font-style: normal;
+                                                        font-weight: 500;
+                                                        line-height: 19px;
+                                                        letter-spacing: 0em;
+                                                        text-align: left;
+                                                        margin-bottom: 15px;">{!f.fieldLabel}                   : {!productDetail[f.fieldName]}</li>
+                                        
+                                        </apex:repeat>
+                                    </ul>
+                                    
+                                    <br/>
+                                    <br/>
+                                    
+                                    <div style="text-align: center">
+                                        <button style=" font-size: 14px;
+                                                        font-style: normal;
+                                                        font-weight: 800;
+                                                        line-height: 17px;
+                                                        letter-spacing: 0px;
+                                                        text-align: center;
+                                                        background: #4E7AE7;
+                                                        height: 39.31365966796875px;
+                                                        width: 184.83050537109375px;
+                                                        left: 1008.9140625px;
+                                                        top: 688.5790405273438px;
+                                                        border-radius: 3.9412519931793213px;
+                                                        padding: 11px, 28px, 11px, 28px;
+                                                        color: #fff;
+                                                        border: none;"  onclick="addFav('{!productDetail.Id}', {!unitPrice});">
+                                            LIKE THIS ITEM
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters" style="padding:15px;background: #F2F2F6;">
+                                <div class="slds-col">
+                                    <h2 style=" font-size: 21px;
+                                                font-style: normal;
+                                                font-weight: 700;
+                                                line-height: 25px;
+                                                letter-spacing: 0em;
+                                                ">DESCRIPTION</h2><br/>
+                                    <p style="  font-size: 16px;
+                                                font-style: normal;
+                                                font-weight: 400;
+                                                line-height: 19px;
+                                                letter-spacing: 0em;
+                                                text-align: left;">
+                                                
+                                        {!productDetail.Description}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </apex:outputPanel>
+            
+            <section id="leadModal" role="dialog" class="slds-modal">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="closeModal();">
+                            <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                            </svg>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">
+                            New Lead
+                        </h2>
+                    </header>
+                    <apex:form id="frm2">
+                        <apex:actionFunction name="saveLead" action="{!saveNewLead}" reRender="frm2" status="waitStatus" oncomplete="reloadLead();"/>
+                        <input type="hidden" value="{!leadId}" id="leadId" />
+                        <div class="slds-modal__content slds-p-around_medium" style="padding: 0;">
+                            <div class="slds-form" role="list">
+                                <span class="slds-badge" style="width:100%; border-radius:0; margin-bottom: 10px;">Information</span>
+                                <div class="slds-form__row">
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                            <label class="slds-form-element__label" for="single-form-element-id-02">First Name</label>
+                                            <div class="slds-form-element__control">
+                                                <apex:inputField styleClass="slds-input" value="{!lead.FirstName}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                            <label class="slds-form-element__label" for="single-form-element-id-03">Last Name</label>
+                                            <div class="slds-form-element__control">
+                                                <apex:inputField styleClass="slds-input" value="{!lead.LastName}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-form__row">
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                            <label class="slds-form-element__label" for="single-form-element-id-02">Email</label>
+                                            <div class="slds-form-element__control">
+                                                <apex:inputField styleClass="slds-input" value="{!lead.Email}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                            <label class="slds-form-element__label" for="single-form-element-id-03">Mobile Phone</label>
+                                            <div class="slds-form-element__control">
+                                                <apex:inputField styleClass="slds-input" value="{!lead.MobilePhone}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-form__row">
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing slds-form-element_1-col">
+                                            <label class="slds-form-element__label" for="single-form-element-id-04">Description</label>
+                                            <div class="slds-form-element__control">
+                                                <apex:inputTextarea styleClass="slds-textarea" value="{!lead.Description}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!--<span class="slds-badge" style="width:100%; border-radius:0; margin-bottom: 10px;">Product Information</span>
+                                <div class="slds-form__row">
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                            <label class="slds-form-element__label" for="single-form-element-id-02">Product Name</label>
+                                            <div class="slds-form-element__control">
+                                                <apex:inputField styleClass="slds-input" value="{!lead.Product_Name__c}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                            <label class="slds-form-element__label" for="single-form-element-id-03">Product Code</label>
+                                            <div class="slds-form-element__control">
+                                                <apex:inputField styleClass="slds-input" value="{!lead.Design_Number__c}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-form__row">
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                            <label class="slds-form-element__label" for="single-form-element-id-02">Product Family</label>
+                                            <div class="slds-form-element__control">
+                                                <apex:inputField styleClass="slds-input" value="{!lead.Jewelry_Type__c}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                            <label class="slds-form-element__label" for="single-form-element-id-03">Type</label>
+                                            <div class="slds-form-element__control">
+                                                <apex:inputField styleClass="slds-input" value="{!lead.Type__c}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-form__row">
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                            <label class="slds-form-element__label" for="single-form-element-id-02">Style</label>
+                                            <div class="slds-form-element__control">
+                                                <apex:inputField styleClass="slds-input" value="{!lead.Style__c}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                            <label class="slds-form-element__label" for="single-form-element-id-03">Enquiry Value</label>
+                                            <div class="slds-form-element__control">
+                                                <apex:inputField styleClass="slds-input" value="{!lead.Enquiry_Value__c}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>-->
+                            </div>
+                        </div>
+                        
+                        <footer class="slds-modal__footer">
+                            <button class="slds-button slds-button_neutral" onclick="closeModal();">Cancel</button>
+                            <button class="slds-button slds-button_brand" onclick="saveLead(); return false;">Save &amp; Show Catalog</button>
+                        </footer>
+                    </apex:form>
+                </div>
+            </section>
+            
+            <div id="slds-backdrop" class="slds-backdrop"></div>
+        </div>
+    </body>
+</apex:page>

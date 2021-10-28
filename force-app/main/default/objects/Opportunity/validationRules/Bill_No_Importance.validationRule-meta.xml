@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Bill_No_Importance</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(  ISPICKVAL( StageName , &quot;Delivered&quot;)  , ISBLANK(  Bill_No__c  ) )</errorConditionFormula>
+    <errorDisplayField>Bill_No__c</errorDisplayField>
+    <errorMessage>Enter the Bill No.</errorMessage>
+</ValidationRule>
